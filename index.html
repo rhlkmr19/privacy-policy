@@ -54,7 +54,7 @@
     <p class="meta">
         <strong>App:</strong> White Board &nbsp;|&nbsp;
         <strong>Effective date:</strong> 7 June 2026 &nbsp;|&nbsp;
-        <strong>Last updated:</strong> 7 June 2026
+        <strong>Last updated:</strong> 15 June 2026
     </p>
 
     <div class="card">
@@ -68,8 +68,8 @@
         <p>
             The App is provided "as is" and is intended for general drawing, teaching,
             and note-taking on a digital whiteboard. The App works fully offline for its
-            core features; an internet connection is only required for advertisements
-            and in-app review prompts.
+            core drawing features; an internet connection is required for advertisements,
+            in-app review prompts, and the optional Web Image Search feature.
         </p>
     </div>
 
@@ -117,8 +117,10 @@
             <tr><th>Permission</th><th>Why we use it</th></tr>
             <tr>
                 <td><code>INTERNET</code></td>
-                <td>Required to load advertisements via Google AdMob and to fetch the
-                    in-app review prompt via Google Play Review API.</td>
+                <td>Required to load advertisements via Google AdMob, to fetch the
+                    in-app review prompt via Google Play Review API, and to search and
+                    download images from Wikimedia Commons when using the Web Image
+                    Search feature.</td>
             </tr>
             <tr>
                 <td><code>CAMERA</code></td>
@@ -191,7 +193,32 @@
             or transmit your rating or any associated data.
         </p>
 
-        <h3>4.3 No analytics, no crash reporting, no servers</h3>
+        <h3>4.3 Wikimedia Commons API (Web Image Search)</h3>
+        <p>
+            The App includes a <strong>Web Image Search</strong> feature that allows you to
+            search for freely-licensed images and insert them into your whiteboard. When you
+            use this feature, your search query is sent to the
+            <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a>
+            public API to retrieve matching images.
+        </p>
+        <ul>
+            <li><strong>Data sent:</strong> Only the text you type as a search query is
+                transmitted. No personal information, device identifiers, or location data
+                is sent with the request.</li>
+            <li><strong>Data received:</strong> Image thumbnails, URLs, titles and attribution
+                metadata from Wikimedia Commons.</li>
+            <li><strong>Storage:</strong> Downloaded images are stored locally on your device
+                as part of the board. They are not uploaded to any server.</li>
+        </ul>
+        <p>
+            This feature is entirely optional and only activates when you explicitly tap
+            "Web Image" and enter a search query. The Wikimedia Foundation's privacy policy
+            applies to requests made to their API:
+            <br>
+            <a href="https://foundation.wikimedia.org/wiki/Privacy_policy" target="_blank" rel="noopener">https://foundation.wikimedia.org/wiki/Privacy_policy</a>
+        </p>
+
+        <h3>4.4 No analytics, no crash reporting, no servers</h3>
         <p>
             The App does <strong>not</strong> integrate Firebase Analytics, Crashlytics,
             Facebook SDK, or any other analytics or attribution SDK. We do not operate
