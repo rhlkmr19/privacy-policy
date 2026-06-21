@@ -54,7 +54,7 @@
     <p class="meta">
         <strong>App:</strong> White Board &nbsp;|&nbsp;
         <strong>Effective date:</strong> 7 June 2026 &nbsp;|&nbsp;
-        <strong>Last updated:</strong> 15 June 2026
+        <strong>Last updated:</strong> 21 June 2026
     </p>
 
     <div class="card">
@@ -69,7 +69,8 @@
             The App is provided "as is" and is intended for general drawing, teaching,
             and note-taking on a digital whiteboard. The App works fully offline for its
             core drawing features; an internet connection is required for advertisements,
-            in-app review prompts, and the optional Web Image Search feature.
+            in-app review prompts, the optional Web Image Search feature, and the
+            optional AI-powered OCR Scanner feature.
         </p>
     </div>
 
@@ -100,14 +101,48 @@
             <li><strong>Drawings, boards, notes and sessions</strong> you create.</li>
             <li><strong>Photos captured via the in-app camera</strong> or chosen from your
                 gallery and inserted into a board.</li>
+            <li><strong>OCR scan history</strong> — text recognized from scanned images
+                is stored locally for your convenience (last 20 scans only).</li>
             <li><strong>App preferences</strong> (theme, default tools, last-used settings,
                 tour completion flag, session-open count, etc.).</li>
         </ul>
         <p>
-            This data is stored <strong>only on your device's local storage</strong> using
-            Android's built-in storage APIs and Jetpack DataStore. It is never uploaded
-            to our servers (we do not operate any backend server) and is not transmitted
-            to any third party by the App itself.
+            Locally stored data is kept <strong>on your device only</strong> using
+            Android's built-in storage APIs, Room database and Jetpack DataStore.
+        </p>
+
+        <h3>2.2 Information sent to our server</h3>
+        <p>
+            When you use the <strong>OCR Scanner</strong> feature, the following data is
+            sent to our server (a Google Cloud Function hosted on Google Cloud Platform):
+        </p>
+        <ul>
+            <li><strong>Image data:</strong> The photo you capture or select is sent to
+                our server for AI-based text recognition. The image is processed in
+                real-time and is <strong>not stored on the server</strong> — it is
+                discarded immediately after processing.</li>
+            <li><strong>Device identifier (Android ID):</strong> A non-resettable,
+                per-app device identifier (<code>Settings.Secure.ANDROID_ID</code>) is
+                sent with each OCR request to track the number of free scans used per
+                device. This identifier is <strong>not linked to your Google account,
+                name, email, or any personally identifiable information</strong>. It is
+                used solely to enforce the free scan limit (5 scans per device).</li>
+        </ul>
+
+        <h3>2.3 Information stored on our server</h3>
+        <p>
+            The following non-personal data is stored in <strong>Google Cloud Firestore</strong>
+            (a Google-managed database) to enforce scan limits:
+        </p>
+        <ul>
+            <li>Device identifier (Android ID) — as the document key</li>
+            <li>Number of OCR scans used</li>
+            <li>Whether the device has premium status</li>
+            <li>Timestamp of the first and last scan</li>
+        </ul>
+        <p>
+            <strong>No images, recognized text, user names, emails, or any personally
+            identifiable information is stored on our server.</strong>
         </p>
     </div>
 
@@ -118,9 +153,10 @@
             <tr>
                 <td><code>INTERNET</code></td>
                 <td>Required to load advertisements via Google AdMob, to fetch the
-                    in-app review prompt via Google Play Review API, and to search and
+                    in-app review prompt via Google Play Review API, to search and
                     download images from Wikimedia Commons when using the Web Image
-                    Search feature.</td>
+                    Search feature, and to process images via the AI-powered OCR
+                    Scanner feature.</td>
             </tr>
             <tr>
                 <td><code>CAMERA</code></td>
@@ -204,7 +240,12 @@
         <ul>
             <li><strong>Data sent:</strong> Only the text you type as a search query is
                 transmitted. No personal information, device identifiers, or location data
-                is sent with the request.</li>
+                is sent with the request. As required by the Wikimedia Foundation's
+                User-Agent policy, each request includes an identification header containing
+                the app name, version, our developer contact email
+                (<a href="mailto:nonytoons2011@gmail.com">nonytoons2011@gmail.com</a>) and a
+                link to this privacy policy page, so that the Wikimedia Foundation can
+                contact us in case of issues. No additional user information is shared.</li>
             <li><strong>Data received:</strong> Image thumbnails, URLs, titles and attribution
                 metadata from Wikimedia Commons.</li>
             <li><strong>Storage:</strong> Downloaded images are stored locally on your device
@@ -218,12 +259,59 @@
             <a href="https://foundation.wikimedia.org/wiki/Privacy_policy" target="_blank" rel="noopener">https://foundation.wikimedia.org/wiki/Privacy_policy</a>
         </p>
 
-        <h3>4.4 No analytics, no crash reporting, no servers</h3>
+        <h3>4.4 AI-Powered OCR Scanner (Google Cloud Functions &amp; Vertex AI)</h3>
+        <p>
+            The App includes an optional <strong>OCR Scanner</strong> feature that uses
+            artificial intelligence to recognize handwritten or printed text from images.
+            When you use this feature:
+        </p>
+        <ul>
+            <li><strong>Image processing:</strong> The image you capture or select is sent
+                over HTTPS to a <strong>Google Cloud Function</strong> hosted on Google
+                Cloud Platform (region: asia-south1). The Cloud Function forwards the
+                image to <strong>Google Vertex AI (Gemini model)</strong> for text
+                recognition. The image is processed in real-time and is <strong>not
+                stored</strong> on our server or by Vertex AI after processing.</li>
+            <li><strong>Device identifier:</strong> Your device's Android ID is sent with
+                the request to enforce the free scan limit. See Section 2.2 for details.</li>
+            <li><strong>Data returned:</strong> Only the recognized text is returned to
+                the App. The text is stored locally on your device in the scan history.</li>
+        </ul>
+        <p>
+            This feature is entirely optional and only activates when you explicitly tap
+            "OCR" and capture or select an image. Google's Vertex AI is governed by
+            Google Cloud's privacy policy:
+            <br>
+            <a href="https://cloud.google.com/terms/cloud-privacy-notice" target="_blank" rel="noopener">https://cloud.google.com/terms/cloud-privacy-notice</a>
+        </p>
+
+        <h3>4.5 Google Cloud Firestore (Scan Limit Tracking)</h3>
+        <p>
+            We use <strong>Google Cloud Firestore</strong> to store a minimal record of
+            how many OCR scans each device has used. This is solely to enforce the free
+            scan limit (5 per device) and prevent abuse.
+        </p>
+        <ul>
+            <li><strong>Data stored:</strong> Device identifier (Android ID), scan count,
+                premium status, and first/last scan timestamps.</li>
+            <li><strong>Data NOT stored:</strong> No images, recognized text, user names,
+                emails, IP addresses, or any personally identifiable information.</li>
+            <li><strong>Hosting:</strong> Firestore is hosted by Google Cloud Platform
+                in the asia-south1 (Mumbai) region.</li>
+        </ul>
+        <p>
+            Google Cloud Firestore is governed by:
+            <br>
+            <a href="https://cloud.google.com/terms/cloud-privacy-notice" target="_blank" rel="noopener">https://cloud.google.com/terms/cloud-privacy-notice</a>
+        </p>
+
+        <h3>4.6 No analytics, no crash reporting</h3>
         <p>
             The App does <strong>not</strong> integrate Firebase Analytics, Crashlytics,
-            Facebook SDK, or any other analytics or attribution SDK. We do not operate
-            our own backend; there is no user account system, no cloud sync, and no
-            server-side storage.
+            Facebook SDK, or any other analytics or attribution SDK. Our server-side
+            infrastructure is limited to the OCR processing and scan-limit tracking
+            described above — there is no user account system, no cloud sync of your
+            drawings, and no tracking beyond what is described in this policy.
         </p>
     </div>
 
@@ -249,10 +337,12 @@
         </p>
         <p>
             Under GDPR / UK GDPR you have the right to access, rectify, erase, or
-            restrict processing of your personal data. Since AiTricker itself does not
-            store any personal data, such requests should be directed to Google for
-            data processed by AdMob, or you can simply uninstall the App to stop further
-            processing on your device.
+            restrict processing of your personal data. For data processed by AdMob,
+            such requests should be directed to Google. For the device identifier and
+            scan-count record stored on our server (Firestore), you may request deletion
+            by contacting us at
+            <a href="mailto:nonytoons2011@gmail.com">nonytoons2011@gmail.com</a>.
+            You can also uninstall the App to stop further processing on your device.
         </p>
     </div>
 
@@ -281,19 +371,29 @@
     <h2>8. Data Retention and Deletion</h2>
     <div class="card">
         <p>
-            All user-created content (drawings, photos, sessions, preferences) is stored
-            locally on your device only. You can delete this data at any time by:
+            <strong>Local data:</strong> All user-created content (drawings, photos,
+            sessions, scan history, preferences) is stored locally on your device. You
+            can delete this data at any time by:
         </p>
         <ul>
-            <li>Deleting individual boards/sessions from within the App.</li>
+            <li>Deleting individual boards/sessions or scan history from within the App.</li>
             <li>Clearing the App's data:
                 <em>Android Settings → Apps → White Board → Storage → Clear data</em>.</li>
             <li>Uninstalling the App, which removes all locally stored data.</li>
         </ul>
         <p>
-            Because we do not collect personal data on our servers, there is no
-            server-side data to delete. For data collected by AdMob, please refer to
-            Google's data deletion mechanisms in their privacy policy.
+            <strong>Server-side data:</strong> The OCR scan count record stored in
+            Firestore (device identifier, scan count, timestamps) is retained to enforce
+            the free scan limit. Images sent for OCR processing are <strong>not
+            retained</strong> — they are discarded immediately after text recognition
+            is complete. If you wish to have your scan-count record deleted from our
+            server, please contact us at
+            <a href="mailto:nonytoons2011@gmail.com">nonytoons2011@gmail.com</a>
+            with your request.
+        </p>
+        <p>
+            For data collected by AdMob, please refer to Google's data deletion
+            mechanisms in their privacy policy.
         </p>
     </div>
 
@@ -301,8 +401,11 @@
     <div class="card">
         <p>
             User content is stored in the App's private storage area on your device,
-            which is protected by Android's app-sandbox model. Network traffic to AdMob
-            and Google Play services is encrypted in transit using HTTPS / TLS.
+            which is protected by Android's app-sandbox model. All network traffic —
+            including OCR image uploads, scan-limit checks, AdMob requests, and Google
+            Play services — is encrypted in transit using HTTPS / TLS. Server-side data
+            in Firestore is protected by Google Cloud Platform's security infrastructure
+            including encryption at rest.
         </p>
         <p>
             However, no method of electronic storage or transmission is 100% secure,
