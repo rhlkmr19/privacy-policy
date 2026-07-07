@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Privacy Policy — White Board</title>
+    <title>White Board — Privacy Policy, Terms &amp; Refund Policy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Privacy Policy for the White Board Android app by AiTricker.">
+    <meta name="description" content="Privacy Policy, Terms &amp; Conditions, and Refund Policy for the White Board Android app by AiTricker.">
     <style>
         * { box-sizing: border-box; }
         body {
@@ -19,7 +19,7 @@
         h2 { color: #ffffff; margin-top: 32px; font-size: 22px; }
         h3 { color: #ffffff; margin-top: 18px; font-size: 16px; }
         p, li { color: #cbd5f5; font-size: 15px; }
-        ul { margin-left: 20px; padding-left: 4px; }
+        ul, ol { margin-left: 20px; padding-left: 4px; }
         .meta { color: #94a3b8; font-size: 14px; margin-bottom: 18px; }
         .card {
             background: #111827;
@@ -28,33 +28,66 @@
             padding: 18px 22px;
             margin-top: 14px;
         }
-        .pill {
-            display: inline-block;
-            background: #1e293b;
-            color: #93c5fd;
-            font-size: 12px;
-            padding: 3px 10px;
-            border-radius: 999px;
-            margin-right: 6px;
-        }
         a { color: #60a5fa; text-decoration: none; }
         a:hover { text-decoration: underline; }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
         th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #1f2937; font-size: 14px; }
         th { color: #ffffff; background: #1e293b; }
         td { color: #cbd5f5; }
-        .footer { margin-top: 40px; text-align: center; font-size: 13px; color: #94a3b8; }
         code { background: #1e293b; padding: 2px 6px; border-radius: 4px; font-size: 13px; color: #fbbf24; }
+        .footer { margin-top: 40px; text-align: center; font-size: 13px; color: #94a3b8; }
+
+        /* ── Tab Navigation ── */
+        .tab-bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            padding: 10px 22px;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            background: #1e293b;
+            color: #94a3b8;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .tab-btn:hover {
+            background: #334155;
+            color: #e5e7eb;
+        }
+        .tab-btn.active {
+            background: #2563eb;
+            color: #ffffff;
+            border-color: #2563eb;
+        }
+        .tab-section { display: none; }
+        .tab-section.active { display: block; }
     </style>
 </head>
 <body>
 <div class="container">
 
+    <!-- ── Tab Buttons ── -->
+    <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchTab('privacy')">Privacy Policy</button>
+        <button class="tab-btn" onclick="switchTab('terms')">Terms &amp; Conditions</button>
+        <button class="tab-btn" onclick="switchTab('refund')">Refund Policy</button>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════════
+         SECTION 1: PRIVACY POLICY
+         ════════════════════════════════════════════════════════════════ -->
+    <div id="privacy" class="tab-section active">
+
     <h1>Privacy Policy</h1>
     <p class="meta">
         <strong>App:</strong> White Board &nbsp;|&nbsp;
         <strong>Effective date:</strong> 7 June 2026 &nbsp;|&nbsp;
-        <strong>Last updated:</strong> 21 June 2026
+        <strong>Last updated:</strong> 7 July 2026
     </p>
 
     <div class="card">
@@ -117,27 +150,35 @@
             sent to our server (a Google Cloud Function hosted on Google Cloud Platform):
         </p>
         <ul>
+            <li><strong>Google account authentication:</strong> To use the OCR Scanner,
+                you must sign in with your Google account via
+                <strong>Firebase Authentication</strong>. Your Google user ID (a unique
+                internal identifier) is sent with each OCR request to enforce per-user
+                scan limits and verify premium purchase status. We do <strong>not</strong>
+                access or store your Google account name, email address, profile photo,
+                or password.</li>
             <li><strong>Image data:</strong> The photo you capture or select is sent to
                 our server for AI-based text recognition. The image is processed in
                 real-time and is <strong>not stored on the server</strong> — it is
                 discarded immediately after processing.</li>
             <li><strong>Device identifier (Android ID):</strong> A non-resettable,
                 per-app device identifier (<code>Settings.Secure.ANDROID_ID</code>) is
-                sent with each OCR request to track the number of free scans used per
-                device. This identifier is <strong>not linked to your Google account,
-                name, email, or any personally identifiable information</strong>. It is
-                used solely to enforce the free scan limit (5 scans per device).</li>
+                sent with each OCR request to prevent abuse (limiting the number of
+                accounts per device). This identifier is <strong>not linked to your
+                name, email, or any personally identifiable information</strong>.</li>
         </ul>
 
         <h3>2.3 Information stored on our server</h3>
         <p>
             The following non-personal data is stored in <strong>Google Cloud Firestore</strong>
-            (a Google-managed database) to enforce scan limits:
+            (a Google-managed database) to enforce scan limits and track premium status:
         </p>
         <ul>
-            <li>Device identifier (Android ID) — as the document key</li>
+            <li>Google user ID (an opaque internal identifier — not your name or email)</li>
+            <li>Device identifier (Android ID)</li>
             <li>Number of OCR scans used</li>
-            <li>Whether the device has premium status</li>
+            <li>Whether the user has premium status (unlocked via in-app purchase)</li>
+            <li>Purchase token (for verifying premium purchases with Google Play)</li>
             <li>Timestamp of the first and last scan</li>
         </ul>
         <p>
@@ -218,7 +259,7 @@
             You can opt out of personalised advertising or reset your Advertising ID at
             any time from your device:
             <br>
-            <em>Settings → Google → Ads</em> (on most Android devices).
+            <em>Settings &rarr; Google &rarr; Ads</em> (on most Android devices).
         </p>
 
         <h3>4.2 Google Play In-App Review API</h3>
@@ -259,7 +300,101 @@
             <a href="https://foundation.wikimedia.org/wiki/Privacy_policy" target="_blank" rel="noopener">https://foundation.wikimedia.org/wiki/Privacy_policy</a>
         </p>
 
-        <h3>4.4 AI-Powered OCR Scanner (Google Cloud Functions &amp; Vertex AI)</h3>
+        <h3>4.4 Firebase Authentication (Google Sign-In)</h3>
+        <p>
+            The App uses <strong>Firebase Authentication</strong> to sign you in with your
+            existing Google account when you use the OCR Scanner feature. This is required
+            to securely identify you for scan-limit enforcement and premium-status
+            verification.
+        </p>
+        <ul>
+            <li><strong>Data accessed:</strong> Firebase Authentication receives a Google
+                ID token from Google Sign-In. We only use the opaque user ID (UID)
+                generated by Firebase — we do <strong>not</strong> access, store, or
+                transmit your Google account name, email, profile photo, or password.</li>
+            <li><strong>Data stored:</strong> The Firebase UID is stored in our Firestore
+                database as the record key for scan-count and premium-status tracking
+                (see Section 2.3).</li>
+            <li><strong>Sign-out:</strong> You can sign out of the App at any time. Your
+                locally stored drawings and boards are not affected by sign-out.</li>
+        </ul>
+        <p>
+            Firebase Authentication is governed by:
+            <br>
+            <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">https://firebase.google.com/support/privacy</a>
+        </p>
+
+        <h3>4.5 Firebase App Check (Play Integrity)</h3>
+        <p>
+            The App uses <strong>Firebase App Check</strong> with the
+            <strong>Play Integrity API</strong> to verify that OCR requests originate from
+            a genuine, unmodified installation of the App. This helps protect our server
+            from automated abuse.
+        </p>
+        <ul>
+            <li><strong>Data sent:</strong> An App Check token (generated by the Play
+                Integrity API) is sent with each OCR request. This token attests that
+                the request comes from a legitimate app instance — it does not contain
+                any personal information.</li>
+            <li><strong>Data stored:</strong> App Check tokens are not stored on our server.
+                They are verified in real-time and discarded.</li>
+        </ul>
+        <p>
+            Play Integrity API is governed by:
+            <br>
+            <a href="https://developer.android.com/google/play/integrity" target="_blank" rel="noopener">https://developer.android.com/google/play/integrity</a>
+        </p>
+
+        <h3>4.6 Google Play Billing (In-App Purchases)</h3>
+        <p>
+            The App offers an optional <strong>one-time in-app purchase</strong>
+            ("OCR Premium Unlock") to unlock unlimited OCR scans (subject to a daily
+            fair-use limit). All purchases are processed entirely by
+            <strong>Google Play Billing</strong>.
+        </p>
+        <ul>
+            <li><strong>Payment data:</strong> All payment information (credit/debit card
+                details, UPI, carrier billing, etc.) is handled exclusively by Google Play.
+                AiTricker does <strong>not</strong> receive, process, or store any payment
+                card details or financial information.</li>
+            <li><strong>Purchase verification:</strong> After a successful purchase, the App
+                sends the purchase token to our server to verify it with the Google Play
+                Developer API. Upon successful verification, the user's premium status is
+                updated in Firestore (see Section 2.3).</li>
+            <li><strong>Refunds:</strong> All refund requests are handled by Google Play
+                in accordance with Google Play's refund policies. See the Refund Policy
+                tab above for details.</li>
+        </ul>
+        <p>
+            Google Play's privacy policy applies to all billing transactions:
+            <br>
+            <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">https://policies.google.com/privacy</a>
+        </p>
+
+        <h3>4.7 Google ML Kit (On-Device AI Features)</h3>
+        <p>
+            The App uses <strong>Google ML Kit</strong> for the following on-device AI
+            features. All ML Kit processing happens <strong>entirely on your device</strong>
+            — no data is sent to any server for these features.
+        </p>
+        <ul>
+            <li><strong>Digital Ink Recognition (Smart Tool):</strong> Recognizes
+                handwritten shapes and text drawn on the whiteboard and converts them
+                to clean digital shapes or typed text. Processing is fully on-device.</li>
+            <li><strong>Language Identification:</strong> Detects the language of
+                recognized text to assist with translation. Processing is fully on-device.</li>
+            <li><strong>Translation:</strong> Translates recognized text between supported
+                languages. Translation models are downloaded to your device on first use
+                and all processing happens locally.</li>
+        </ul>
+        <p>
+            ML Kit may download language models to your device over the internet. No user
+            content (text, drawings, or images) is sent to Google's servers by ML Kit.
+            <br>
+            <a href="https://developers.google.com/ml-kit/terms" target="_blank" rel="noopener">https://developers.google.com/ml-kit/terms</a>
+        </p>
+
+        <h3>4.8 AI-Powered OCR Scanner (Google Cloud Functions &amp; Vertex AI)</h3>
         <p>
             The App includes an optional <strong>OCR Scanner</strong> feature that uses
             artificial intelligence to recognize handwritten or printed text from images.
@@ -285,7 +420,7 @@
             <a href="https://cloud.google.com/terms/cloud-privacy-notice" target="_blank" rel="noopener">https://cloud.google.com/terms/cloud-privacy-notice</a>
         </p>
 
-        <h3>4.5 Google Cloud Firestore (Scan Limit Tracking)</h3>
+        <h3>4.9 Google Cloud Firestore (Scan Limit Tracking)</h3>
         <p>
             We use <strong>Google Cloud Firestore</strong> to store a minimal record of
             how many OCR scans each device has used. This is solely to enforce the free
@@ -305,13 +440,13 @@
             <a href="https://cloud.google.com/terms/cloud-privacy-notice" target="_blank" rel="noopener">https://cloud.google.com/terms/cloud-privacy-notice</a>
         </p>
 
-        <h3>4.6 No analytics, no crash reporting</h3>
+        <h3>4.10 No analytics, no crash reporting</h3>
         <p>
             The App does <strong>not</strong> integrate Firebase Analytics, Crashlytics,
             Facebook SDK, or any other analytics or attribution SDK. Our server-side
-            infrastructure is limited to the OCR processing and scan-limit tracking
-            described above — there is no user account system, no cloud sync of your
-            drawings, and no tracking beyond what is described in this policy.
+            infrastructure is limited to the OCR processing, scan-limit tracking, and
+            purchase verification described above — there is no cloud sync of your
+            drawings and no tracking beyond what is described in this policy.
         </p>
     </div>
 
@@ -332,7 +467,7 @@
         </ul>
         <p>
             You may change or withdraw your consent at any time by clearing the App's data
-            in <em>Android Settings → Apps → White Board → Storage → Clear data</em>,
+            in <em>Android Settings &rarr; Apps &rarr; White Board &rarr; Storage &rarr; Clear data</em>,
             which will cause the consent dialog to be shown again on the next launch.
         </p>
         <p>
@@ -378,7 +513,7 @@
         <ul>
             <li>Deleting individual boards/sessions or scan history from within the App.</li>
             <li>Clearing the App's data:
-                <em>Android Settings → Apps → White Board → Storage → Clear data</em>.</li>
+                <em>Android Settings &rarr; Apps &rarr; White Board &rarr; Storage &rarr; Clear data</em>.</li>
             <li>Uninstalling the App, which removes all locally stored data.</li>
         </ul>
         <p>
@@ -449,10 +584,375 @@
         </p>
     </div>
 
+    </div><!-- /privacy -->
+
+    <!-- ════════════════════════════════════════════════════════════════
+         SECTION 2: TERMS & CONDITIONS
+         ════════════════════════════════════════════════════════════════ -->
+    <div id="terms" class="tab-section">
+
+    <h1>Terms &amp; Conditions</h1>
+    <p class="meta">
+        <strong>App:</strong> White Board &nbsp;|&nbsp;
+        <strong>Effective date:</strong> 7 July 2026 &nbsp;|&nbsp;
+        <strong>Last updated:</strong> 7 July 2026
+    </p>
+
+    <div class="card">
+        <p>
+            Please read these Terms &amp; Conditions ("Terms") carefully before using the
+            <strong>White Board</strong> Android application (the "App") developed by
+            AiTricker ("we", "our", "us"). By installing, accessing, or using the App,
+            you agree to be bound by these Terms. If you do not agree, please do not use
+            the App.
+        </p>
+    </div>
+
+    <h2>1. Use of the App</h2>
+    <div class="card">
+        <ul>
+            <li>The App is a digital whiteboard designed for drawing, teaching, and
+                note-taking purposes.</li>
+            <li>The App is provided free of charge with optional in-app purchases.</li>
+            <li>You must be at least 13 years of age to use the App.</li>
+            <li>You agree to use the App only for lawful purposes and in accordance
+                with these Terms.</li>
+            <li>You are responsible for all content you create, import, or share using
+                the App.</li>
+        </ul>
+    </div>
+
+    <h2>2. User Accounts &amp; Authentication</h2>
+    <div class="card">
+        <ul>
+            <li>Certain features (such as the OCR Scanner) require you to sign in with
+                your Google account via Firebase Authentication.</li>
+            <li>You are responsible for maintaining the security of your Google account.</li>
+            <li>We do not store your Google account password, email, or profile
+                information on our servers. Only an opaque user identifier (UID) is
+                used for scan-limit enforcement.</li>
+            <li>You may sign out at any time without losing your locally stored
+                drawings or boards.</li>
+        </ul>
+    </div>
+
+    <h2>3. In-App Purchases</h2>
+    <div class="card">
+        <ul>
+            <li>The App offers an optional one-time in-app purchase ("OCR Premium
+                Unlock") that unlocks unlimited OCR scans (subject to a daily
+                fair-use limit of 200 scans per day).</li>
+            <li>All purchases are processed by <strong>Google Play Billing</strong>.
+                We do not collect or store any payment information.</li>
+            <li>The purchase is a <strong>one-time, non-recurring</strong> payment.
+                There are no subscriptions or hidden charges.</li>
+            <li>Once purchased, the premium unlock is tied to your Google account and
+                can be restored on the same account.</li>
+            <li>Refunds are handled in accordance with Google Play's refund policies.
+                See the Refund Policy tab above for details.</li>
+        </ul>
+    </div>
+
+    <h2>4. OCR Scanner Feature</h2>
+    <div class="card">
+        <ul>
+            <li>The OCR Scanner uses AI (Google Vertex AI — Gemini model) to recognize
+                handwritten and printed text from images.</li>
+            <li>Free users receive 5 scans. After that, the OCR Premium Unlock is
+                required for continued use.</li>
+            <li>OCR results are provided on a <strong>best-effort basis</strong>. We do
+                not guarantee 100% accuracy of text recognition, especially for unclear
+                handwriting, low-quality images, or unusual scripts.</li>
+            <li>Images sent for OCR processing are <strong>not stored</strong> on our
+                servers — they are discarded immediately after processing.</li>
+            <li>We reserve the right to impose fair-use limits to prevent abuse of the
+                OCR service.</li>
+        </ul>
+    </div>
+
+    <h2>5. Advertisements</h2>
+    <div class="card">
+        <ul>
+            <li>The App displays advertisements via <strong>Google AdMob</strong>
+                (banner and interstitial ads).</li>
+            <li>Ad content is provided by Google and third-party ad networks. We are
+                not responsible for the content of advertisements shown in the App.</li>
+            <li>In the EEA/UK, you will be shown a consent dialog for personalised ads
+                in accordance with GDPR requirements.</li>
+        </ul>
+    </div>
+
+    <h2>6. Intellectual Property</h2>
+    <div class="card">
+        <ul>
+            <li>The App, its design, code, icons, and branding are the intellectual
+                property of AiTricker and are protected by applicable copyright laws.</li>
+            <li>Content you create using the App (drawings, notes, boards) belongs to
+                you.</li>
+            <li>Images downloaded via the Web Image Search feature are sourced from
+                Wikimedia Commons and are subject to their respective licenses
+                (typically Creative Commons). You are responsible for complying with
+                the license terms of any images you use.</li>
+        </ul>
+    </div>
+
+    <h2>7. Prohibited Uses</h2>
+    <div class="card">
+        <p>You agree not to:</p>
+        <ul>
+            <li>Reverse-engineer, decompile, or disassemble the App.</li>
+            <li>Attempt to bypass scan limits, premium verification, or other security
+                measures.</li>
+            <li>Use automated tools, bots, or scripts to access the OCR service.</li>
+            <li>Use the App for any illegal or unauthorized purpose.</li>
+            <li>Distribute modified versions of the App.</li>
+        </ul>
+    </div>
+
+    <h2>8. Disclaimer of Warranties</h2>
+    <div class="card">
+        <p>
+            The App is provided <strong>"as is"</strong> and <strong>"as available"</strong>
+            without warranties of any kind, either express or implied, including but not
+            limited to implied warranties of merchantability, fitness for a particular
+            purpose, or non-infringement.
+        </p>
+        <p>
+            We do not warrant that the App will be uninterrupted, error-free, or free of
+            harmful components. OCR text recognition results are approximate and should
+            not be relied upon for critical or legal purposes.
+        </p>
+    </div>
+
+    <h2>9. Limitation of Liability</h2>
+    <div class="card">
+        <p>
+            To the maximum extent permitted by applicable law, AiTricker shall not be
+            liable for any indirect, incidental, special, consequential, or punitive
+            damages, including but not limited to loss of data, loss of profits, or
+            loss of goodwill, arising out of or related to your use of the App.
+        </p>
+        <p>
+            Our total liability for any claim arising from the use of the App shall not
+            exceed the amount you paid for in-app purchases (if any).
+        </p>
+    </div>
+
+    <h2>10. Service Availability</h2>
+    <div class="card">
+        <ul>
+            <li>Core drawing features work fully offline.</li>
+            <li>Online features (OCR Scanner, Web Image Search, advertisements) require
+                an internet connection and depend on third-party services (Google Cloud,
+                Wikimedia, AdMob).</li>
+            <li>We reserve the right to modify, suspend, or discontinue any feature of
+                the App at any time, with or without notice.</li>
+            <li>We are not responsible for downtime caused by third-party service
+                outages.</li>
+        </ul>
+    </div>
+
+    <h2>11. Termination</h2>
+    <div class="card">
+        <p>
+            We reserve the right to restrict or terminate your access to the OCR service
+            if we detect abuse, fraud, or violation of these Terms. You may stop using
+            the App at any time by uninstalling it.
+        </p>
+    </div>
+
+    <h2>12. Changes to These Terms</h2>
+    <div class="card">
+        <p>
+            We may update these Terms from time to time. The "Last updated" date at the
+            top of this page indicates when the Terms were last revised. Continued use of
+            the App after changes constitutes acceptance of the updated Terms.
+        </p>
+    </div>
+
+    <h2>13. Governing Law</h2>
+    <div class="card">
+        <p>
+            These Terms shall be governed by and construed in accordance with the laws of
+            India. Any disputes arising from these Terms shall be subject to the exclusive
+            jurisdiction of the courts in India.
+        </p>
+    </div>
+
+    <h2>14. Contact Us</h2>
+    <div class="card">
+        <p>
+            If you have any questions about these Terms, please contact us:
+        </p>
+        <p>
+            <strong>Developer:</strong> AiTricker<br>
+            <strong>Email:</strong>
+            <a href="mailto:nonytoons2011@gmail.com">nonytoons2011@gmail.com</a><br>
+            <strong>App:</strong> White Board
+            (<code>com.teachingboard.aitricker</code>)
+        </p>
+    </div>
+
+    </div><!-- /terms -->
+
+    <!-- ════════════════════════════════════════════════════════════════
+         SECTION 3: REFUND POLICY
+         ════════════════════════════════════════════════════════════════ -->
+    <div id="refund" class="tab-section">
+
+    <h1>Refund Policy</h1>
+    <p class="meta">
+        <strong>App:</strong> White Board &nbsp;|&nbsp;
+        <strong>Effective date:</strong> 7 July 2026 &nbsp;|&nbsp;
+        <strong>Last updated:</strong> 7 July 2026
+    </p>
+
+    <div class="card">
+        <p>
+            This Refund Policy explains how refunds work for in-app purchases made
+            within the <strong>White Board</strong> Android application developed by
+            AiTricker ("we", "our", "us").
+        </p>
+    </div>
+
+    <h2>1. In-App Purchase Details</h2>
+    <div class="card">
+        <ul>
+            <li><strong>Product:</strong> OCR Premium Unlock</li>
+            <li><strong>Type:</strong> One-time, non-recurring purchase</li>
+            <li><strong>What it unlocks:</strong> Unlimited OCR (text recognition) scans,
+                subject to a daily fair-use limit of 200 scans per day.</li>
+            <li><strong>Payment processor:</strong> Google Play Billing (all payments
+                are handled entirely by Google Play).</li>
+        </ul>
+    </div>
+
+    <h2>2. Google Play Refund Policy</h2>
+    <div class="card">
+        <p>
+            Since all purchases are processed through <strong>Google Play</strong>,
+            refund requests are governed by
+            <a href="https://support.google.com/googleplay/answer/2479637" target="_blank" rel="noopener">Google Play's refund policy</a>.
+        </p>
+
+        <h3>2.1 Within 48 hours of purchase</h3>
+        <p>
+            If you request a refund <strong>within 48 hours</strong> of your purchase,
+            Google may process the refund automatically. You can request a refund
+            directly through Google Play:
+        </p>
+        <ol>
+            <li>Open the <strong>Google Play Store</strong> app on your device.</li>
+            <li>Tap your profile icon (top right) and select
+                <strong>Payments &amp; subscriptions</strong>.</li>
+            <li>Tap <strong>Budget &amp; order history</strong>.</li>
+            <li>Find the "OCR Premium Unlock" purchase and tap it.</li>
+            <li>Select <strong>Request a refund</strong> or
+                <strong>Report a problem</strong>.</li>
+            <li>Follow the on-screen instructions.</li>
+        </ol>
+        <p>
+            Alternatively, visit
+            <a href="https://play.google.com/store/account/orderhistory" target="_blank" rel="noopener">play.google.com/store/account/orderhistory</a>
+            from a browser.
+        </p>
+
+        <h3>2.2 After 48 hours</h3>
+        <p>
+            After 48 hours, Google Play may not process automatic refunds. In this case,
+            you can contact us directly at
+            <a href="mailto:nonytoons2011@gmail.com">nonytoons2011@gmail.com</a> with:
+        </p>
+        <ul>
+            <li>Your Google Play order number (e.g., GPA.1234-5678-9012-34567)</li>
+            <li>The email address used for the purchase</li>
+            <li>A brief reason for the refund request</li>
+        </ul>
+        <p>
+            We will review your request and respond within <strong>3 business days</strong>.
+            If approved, we will process the refund through Google Play.
+        </p>
+    </div>
+
+    <h2>3. Refund Eligibility</h2>
+    <div class="card">
+        <p>Refunds are generally granted in the following cases:</p>
+        <ul>
+            <li>The OCR feature does not work as described despite having a stable
+                internet connection.</li>
+            <li>The purchase was made accidentally (e.g., by a child).</li>
+            <li>The purchase was unauthorized.</li>
+            <li>A technical issue prevents you from using the premium feature.</li>
+        </ul>
+        <p>Refunds may be declined if:</p>
+        <ul>
+            <li>The premium feature has been used extensively before the refund
+                request.</li>
+            <li>The request is made long after the purchase date (beyond a reasonable
+                timeframe).</li>
+            <li>There is evidence of abuse or fraud.</li>
+        </ul>
+    </div>
+
+    <h2>4. What Happens After a Refund</h2>
+    <div class="card">
+        <ul>
+            <li>Once a refund is processed, your premium status will be revoked and you
+                will return to the free tier (5 scans limit).</li>
+            <li>The refund amount will be returned to your original payment method as
+                per Google Play's processing timeline (typically 3-5 business days,
+                depending on your bank or payment provider).</li>
+            <li>Your locally stored drawings, boards, and scan history will
+                <strong>not</strong> be affected by the refund.</li>
+        </ul>
+    </div>
+
+    <h2>5. Free Features</h2>
+    <div class="card">
+        <p>
+            The core whiteboard features (drawing, shapes, text, eraser, boards, export,
+            camera, stickers, web image search, etc.) are completely
+            <strong>free</strong> and do not require any purchase. The in-app purchase
+            only applies to the OCR Scanner feature beyond the free 5-scan limit.
+        </p>
+    </div>
+
+    <h2>6. Contact Us</h2>
+    <div class="card">
+        <p>
+            If you have any questions about this Refund Policy or need assistance with
+            a refund, please contact us:
+        </p>
+        <p>
+            <strong>Developer:</strong> AiTricker<br>
+            <strong>Email:</strong>
+            <a href="mailto:nonytoons2011@gmail.com">nonytoons2011@gmail.com</a><br>
+            <strong>App:</strong> White Board
+            (<code>com.teachingboard.aitricker</code>)
+        </p>
+    </div>
+
+    </div><!-- /refund -->
+
     <div class="footer">
-        © 2026 AiTricker. All rights reserved.
+        &copy; 2026 AiTricker. All rights reserved.
     </div>
 
 </div>
+
+<script>
+function switchTab(tabId) {
+    document.querySelectorAll('.tab-section').forEach(function(s) { s.classList.remove('active'); });
+    document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+    document.getElementById(tabId).classList.add('active');
+    var btns = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < btns.length; i++) {
+        if (btns[i].getAttribute('onclick').indexOf(tabId) !== -1) {
+            btns[i].classList.add('active');
+        }
+    }
+    window.scrollTo(0, 0);
+}
+</script>
 </body>
 </html>
