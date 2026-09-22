@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>White Board - Draw & Teach | AiTricker</title>
+
+  <meta
+    name="description"
+    content="White Board - Draw & Teach is a digital whiteboard app for drawing, teaching, explaining ideas and creating visual lessons on Android."
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --blue: #2f6fed;
+      --blue-dark: #245bc7;
+
+      --green: #38c6a1;
+      --yellow: #e9b949;
+
+      --text: #152039;
+      --muted: #6d7789;
+
+      --bg: #f5f8fc;
+      --white: #ffffff;
+
+      --border: #e3eaf2;
+
+      --shadow:
+        0 14px 40px rgba(28, 46, 78, 0.065);
+
+      --shadow-hover:
+        0 20px 48px rgba(28, 46, 78, 0.095);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+      color: var(--text);
+      background: var(--bg);
+
+      line-height: 1.6;
+
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      width: min(100% - 34px, 1120px);
+      margin: 0 auto;
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+
+      background: rgba(255, 255, 255, 0.95);
+
+      border-bottom:
+        1px solid rgba(222, 229, 239, 0.92);
+
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .header-inner {
+      min-height: 78px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+
+      gap: 13px;
+    }
+
+    .logo-image {
+      width: 50px;
+      height: 50px;
+
+      display: block;
+
+      object-fit: cover;
+
+      border-radius: 14px;
+
+      box-shadow:
+        0 5px 16px rgba(37, 99, 235, 0.09);
+    }
+
+    .brand-name {
+      font-size: 20px;
+
+      font-weight: 800;
+
+      letter-spacing: -0.3px;
+    }
+
+    .brand-subtitle {
+      margin-top: 1px;
+
+      color: var(--muted);
+
+      font-size: 12px;
+    }
+
+    .brand-badge {
+      padding: 8px 13px;
+
+      border-radius: 999px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #f0f6ff,
+          #eefcf8
+        );
+
+      border:
+        1px solid #dce8f3;
+
+      color: #3568b8;
+
+      font-size: 13px;
+
+      font-weight: 700;
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      position: relative;
+
+      padding: 98px 0 88px;
+
+      overflow: hidden;
+
+      text-align: center;
+
+      background:
+        radial-gradient(
+          circle at 12% 17%,
+          rgba(47, 111, 237, 0.10),
+          transparent 24%
+        ),
+        radial-gradient(
+          circle at 87% 17%,
+          rgba(56, 198, 161, 0.09),
+          transparent 23%
+        ),
+        linear-gradient(
+          180deg,
+          #ffffff 0%,
+          #f5f8fc 100%
+        );
+    }
+
+    .hero::before {
+      content: "";
+
+      position: absolute;
+
+      width: 290px;
+      height: 110px;
+
+      top: 28px;
+      left: -85px;
+
+      border-top:
+        1px solid
+        rgba(47, 111, 237, 0.08);
+
+      border-radius: 50%;
+
+      transform: rotate(-10deg);
+
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: "";
+
+      position: absolute;
+
+      width: 280px;
+      height: 100px;
+
+      right: -85px;
+      bottom: 35px;
+
+      border-top:
+        1px solid
+        rgba(56, 198, 161, 0.09);
+
+      border-radius: 50%;
+
+      transform: rotate(9deg);
+
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+
+      z-index: 2;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+
+      align-items: center;
+
+      gap: 8px;
+
+      padding: 8px 14px;
+
+      border-radius: 999px;
+
+      background: rgba(247, 251, 255, 0.94);
+
+      border:
+        1px solid #dce7f3;
+
+      color: var(--blue-dark);
+
+      font-size: 13px;
+
+      font-weight: 800;
+
+      margin-bottom: 22px;
+
+      box-shadow:
+        0 5px 16px rgba(37, 99, 235, 0.045);
+    }
+
+    .hero-dot {
+      width: 8px;
+      height: 8px;
+
+      border-radius: 50%;
+
+      background: var(--green);
+
+      box-shadow:
+        0 0 0 4px
+        rgba(56, 198, 161, 0.09);
+    }
+
+    .hero h1 {
+      max-width: 900px;
+
+      margin: 0 auto;
+
+      font-size:
+        clamp(
+          40px,
+          6vw,
+          68px
+        );
+
+      line-height: 1.05;
+
+      letter-spacing: -2.4px;
+
+      font-weight: 850;
+    }
+
+    .hero h1 .blue {
+      color: var(--blue);
+    }
+
+    .hero-description {
+      max-width: 760px;
+
+      margin: 24px auto 0;
+
+      color: var(--muted);
+
+      font-size: 18px;
+
+      line-height: 1.8;
+    }
+
+    .hero-buttons {
+      margin-top: 36px;
+
+      display: flex;
+
+      justify-content: center;
+
+      flex-wrap: wrap;
+
+      gap: 14px;
+    }
+
+    .primary-button {
+      display: inline-flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      min-width: 195px;
+
+      padding: 14px 24px;
+
+      border-radius: 12px;
+
+      background: var(--blue);
+
+      border:
+        1px solid var(--blue);
+
+      color: #ffffff;
+
+      font-size: 15px;
+
+      font-weight: 800;
+
+      box-shadow:
+        0 9px 22px
+        rgba(47, 111, 237, 0.18);
+
+      transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .primary-button:hover {
+      background: var(--blue-dark);
+
+      transform: translateY(-2px);
+
+      box-shadow:
+        0 13px 28px
+        rgba(47, 111, 237, 0.22);
+    }
+
+    .secondary-button {
+      display: inline-flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      min-width: 175px;
+
+      padding: 14px 24px;
+
+      border-radius: 12px;
+
+      background: rgba(255,255,255,0.95);
+
+      border:
+        1px solid var(--border);
+
+      color: var(--text);
+
+      font-size: 15px;
+
+      font-weight: 800;
+
+      box-shadow:
+        0 7px 18px
+        rgba(30, 50, 80, 0.035);
+
+      transition:
+        transform 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .secondary-button:hover {
+      transform: translateY(-2px);
+
+      border-color: #cbd7e5;
+    }
+
+    /* =========================
+       SECTION
+    ========================= */
+
+    .section {
+      padding: 25px 0 85px;
+    }
+
+    .section-heading {
+      max-width: 720px;
+
+      margin: 0 auto 40px;
+
+      text-align: center;
+    }
+
+    .section-heading h2 {
+      font-size: 31px;
+
+      line-height: 1.2;
+
+      margin-bottom: 12px;
+
+      letter-spacing: -0.6px;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+
+      font-size: 16px;
+    }
+
+    /* =========================
+       CARDS
+    ========================= */
+
+    .cards {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 20px;
+    }
+
+    .card {
+      position: relative;
+
+      padding: 29px;
+
+      background:
+        linear-gradient(
+          145deg,
+          #ffffff 0%,
+          #fbfcfe 100%
+        );
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 20px;
+
+      box-shadow: var(--shadow);
+
+      overflow: hidden;
+
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+
+      box-shadow:
+        var(--shadow-hover);
+    }
+
+    /* subtle shallow line */
+
+    .card::after {
+      content: "";
+
+      position: absolute;
+
+      width: 180px;
+      height: 55px;
+
+      right: -75px;
+      bottom: -10px;
+
+      border-top:
+        1px solid
+        rgba(47,111,237,0.055);
+
+      border-radius: 50%;
+
+      transform: rotate(-12deg);
+
+      pointer-events: none;
+    }
+
+    .card:nth-child(2)::after {
+      border-color:
+        rgba(233,185,73,0.07);
+    }
+
+    .card:nth-child(3)::after {
+      border-color:
+        rgba(56,198,161,0.065);
+    }
+
+    /* =========================
+       CLEAN LABEL
+    ========================= */
+
+    .card-icon {
+      display: inline-block;
+
+      margin-bottom: 20px;
+
+      padding: 5px 0 7px;
+
+      background: transparent;
+
+      border: none;
+
+      border-bottom:
+        1px solid
+        rgba(47, 111, 237, 0.18);
+
+      color: var(--blue);
+
+      font-size: 11px;
+
+      font-weight: 800;
+
+      letter-spacing: 0.8px;
+
+      line-height: 1;
+
+      box-shadow: none;
+    }
+
+    .card:nth-child(2) .card-icon {
+      color: #b88719;
+
+      border-bottom-color:
+        rgba(233, 185, 73, 0.25);
+    }
+
+    .card:nth-child(3) .card-icon {
+      color: #159777;
+
+      border-bottom-color:
+        rgba(56, 198, 161, 0.23);
+    }
+
+    .card h3 {
+      font-size: 20px;
+
+      margin-bottom: 9px;
+
+      letter-spacing: -0.2px;
+    }
+
+    .card p {
+      color: var(--muted);
+
+      font-size: 15px;
+
+      line-height: 1.75;
+    }
+
+    /* =========================
+       ABOUT
+    ========================= */
+
+    .about-box {
+      position: relative;
+
+      display: grid;
+
+      grid-template-columns:
+        1.1fr 0.9fr;
+
+      gap: 38px;
+
+      align-items: center;
+
+      margin-top: 24px;
+
+      padding: 39px;
+
+      border-radius: 23px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #ffffff 0%,
+          #f9fbff 60%,
+          #f4fcf8 100%
+        );
+
+      border:
+        1px solid var(--border);
+
+      box-shadow:
+        var(--shadow);
+
+      overflow: hidden;
+    }
+
+    .about-box::after {
+      content: "";
+
+      position: absolute;
+
+      width: 310px;
+      height: 90px;
+
+      right: -80px;
+      top: -30px;
+
+      border-top:
+        1px solid
+        rgba(56,198,161,0.08);
+
+      border-radius: 50%;
+
+      transform: rotate(16deg);
+
+      pointer-events: none;
+    }
+
+    .about-box h2 {
+      font-size: 29px;
+
+      line-height: 1.2;
+
+      margin-bottom: 14px;
+
+      letter-spacing: -0.5px;
+    }
+
+    .about-box p {
+      color: var(--muted);
+
+      font-size: 16px;
+
+      line-height: 1.8;
+    }
+
+    .about-points {
+      display: grid;
+
+      gap: 12px;
+
+      position: relative;
+
+      z-index: 2;
+    }
+
+    .about-point {
+      display: flex;
+
+      align-items: center;
+
+      gap: 11px;
+
+      padding: 13px 15px;
+
+      background:
+        rgba(255,255,255,0.84);
+
+      border:
+        1px solid
+        rgba(221,228,238,0.92);
+
+      border-radius: 13px;
+
+      font-size: 14px;
+
+      font-weight: 700;
+
+      box-shadow:
+        0 5px 14px
+        rgba(30,50,80,0.028);
+    }
+
+    .check {
+      width: 25px;
+      height: 25px;
+
+      flex: 0 0 25px;
+
+      display: grid;
+
+      place-items: center;
+
+      border-radius: 50%;
+
+      background:
+        linear-gradient(
+          135deg,
+          #eef5ff,
+          #effcf8
+        );
+
+      color: var(--blue);
+
+      border:
+        1px solid
+        rgba(47,111,237,0.09);
+
+      font-size: 12px;
+
+      font-weight: 900;
+    }
+
+    /* =========================
+       CONTACT
+    ========================= */
+
+    .contact-section {
+      padding: 0 0 88px;
+    }
+
+    .contact-box {
+      position: relative;
+
+      padding: 42px 30px;
+
+      text-align: center;
+
+      background:
+        #ffffff;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 22px;
+
+      box-shadow:
+        var(--shadow);
+
+      overflow: hidden;
+    }
+
+    .contact-box::before {
+      content: "";
+
+      position: absolute;
+
+      width: 260px;
+      height: 90px;
+
+      top: -45px;
+      left: 50%;
+
+      transform: translateX(-50%);
+
+      border-bottom:
+        1px solid
+        rgba(47,111,237,0.055);
+
+      border-radius: 50%;
+    }
+
+    .contact-box h2 {
+      font-size: 29px;
+
+      margin-bottom: 10px;
+
+      letter-spacing: -0.5px;
+    }
+
+    .contact-box p {
+      color: var(--muted);
+
+      margin-bottom: 7px;
+    }
+
+    .contact-email {
+      display: inline-block;
+
+      margin-top: 5px;
+
+      margin-bottom: 27px;
+
+      color: var(--blue);
+
+      font-size: 16px;
+
+      font-weight: 800;
+    }
+
+    .policy-links {
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      flex-wrap: wrap;
+
+      gap: 14px 24px;
+    }
+
+    .policy-links a {
+      color: var(--blue-dark);
+
+      font-size: 14px;
+
+      font-weight: 800;
+    }
+
+    .policy-links a:hover {
+      text-decoration: underline;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      background:
+        #ffffff;
+
+      border-top:
+        1px solid var(--border);
+
+      padding: 25px 0;
+    }
+
+    .footer-inner {
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      flex-wrap: wrap;
+
+      gap: 20px;
+    }
+
+    .footer-copy {
+      color: #7e8797;
+
+      font-size: 13px;
+    }
+
+    .footer-brand {
+      color: var(--text);
+
+      font-size: 13px;
+
+      font-weight: 800;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 860px) {
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .about-box {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding:
+          75px 0 65px;
+      }
+
+    }
+
+    @media (max-width: 560px) {
+
+      .container {
+        width:
+          min(100% - 22px, 1120px);
+      }
+
+      .header-inner {
+        min-height: 70px;
+      }
+
+      .brand-badge {
+        display: none;
+      }
+
+      .logo-image {
+        width: 44px;
+        height: 44px;
+      }
+
+      .brand-name {
+        font-size: 18px;
+      }
+
+      .brand-subtitle {
+        font-size: 11px;
+      }
+
+      .hero h1 {
+        letter-spacing: -1px;
+      }
+
+      .hero-description {
+        font-size: 16px;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+
+        align-items: stretch;
+      }
+
+      .primary-button,
+      .secondary-button {
+        width: 100%;
+      }
+
+      .about-box {
+        padding:
+          27px 22px;
+      }
+
+      .contact-box {
+        padding:
+          32px 20px;
+      }
+
+      .footer-inner {
+        justify-content: center;
+
+        text-align: center;
+      }
+
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+
+  <header>
+
+    <div class="container header-inner">
+
+      <div class="brand">
+
+        <img
+          src="logo.png"
+          alt="White Board - Draw & Teach logo"
+          class="logo-image"
+        >
+
+        <div>
+
+          <div class="brand-name">
+            White Board - Draw & Teach
+          </div>
+
+          <div class="brand-subtitle">
+            Digital Whiteboard for Learning & Teaching
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="brand-badge">
+        AiTricker
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- HERO -->
+
+  <main>
+
+    <section class="hero">
+
+      <div class="container hero-content">
+
+        <div class="hero-badge">
+
+          <span class="hero-dot"></span>
+
+          Interactive Digital Whiteboard
+
+        </div>
+
+
+        <h1>
+
+          Draw.
+          <span class="blue">Teach.</span>
+          Explain.
+
+        </h1>
+
+
+        <p class="hero-description">
+
+          White Board - Draw & Teach is a digital whiteboard
+          designed for drawing, teaching, explaining ideas,
+          and creating clear visual lessons directly from
+          your Android device.
+
+        </p>
+
+
+        <div class="hero-buttons">
+
+          <a
+            class="primary-button"
+            href="index.html"
+          >
+            View Privacy Policy
+          </a>
+
+
+          <a
+            class="secondary-button"
+            href="mailto:nonytoons2011@gmail.com"
+          >
+            Contact Support
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- FEATURES -->
+
+    <section class="section">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <h2>
+            Everything You Need on a Digital Board
+          </h2>
+
+          <p>
+            A simple visual workspace for drawing,
+            explaining ideas and teaching concepts.
+          </p>
+
+        </div>
+
+
+        <div class="cards">
+
+
+          <!-- DRAW -->
+
+          <div class="card">
+
+            <div class="card-icon">
+              DRAW
+            </div>
+
+            <h3>
+              Draw & Sketch
+            </h3>
+
+            <p>
+              Create drawings and visual explanations
+              directly on the digital canvas using
+              interactive drawing tools.
+            </p>
+
+          </div>
+
+
+          <!-- TEACH -->
+
+          <div class="card">
+
+            <div class="card-icon">
+              TEACH
+            </div>
+
+            <h3>
+              Teach & Explain
+            </h3>
+
+            <p>
+              Use the digital board to explain concepts,
+              demonstrate ideas and create engaging
+              visual teaching content.
+            </p>
+
+          </div>
+
+
+          <!-- CREATE -->
+
+          <div class="card">
+
+            <div class="card-icon">
+              CREATE
+            </div>
+
+            <h3>
+              Create Visual Lessons
+            </h3>
+
+            <p>
+              Build clear visual explanations by combining
+              drawings, text and other whiteboard elements
+              on a single workspace.
+            </p>
+
+          </div>
+
+
+        </div>
+
+
+        <!-- ABOUT -->
+
+        <div class="about-box">
+
+
+          <div>
+
+            <h2>
+              A Whiteboard Made for Visual Learning
+            </h2>
+
+            <p>
+              White Board - Draw & Teach provides a flexible
+              digital canvas for teachers, students,
+              presenters and anyone who wants to explain
+              ideas visually. The app is designed to keep
+              the whiteboard experience simple while giving
+              users a practical workspace for learning and
+              teaching.
+            </p>
+
+          </div>
+
+
+          <div class="about-points">
+
+
+            <div class="about-point">
+
+              <span class="check">
+                ✓
+              </span>
+
+              Digital drawing canvas
+
+            </div>
+
+
+            <div class="about-point">
+
+              <span class="check">
+                ✓
+              </span>
+
+              Visual teaching and explanations
+
+            </div>
+
+
+            <div class="about-point">
+
+              <span class="check">
+                ✓
+              </span>
+
+              Interactive whiteboard workspace
+
+            </div>
+
+
+            <div class="about-point">
+
+              <span class="check">
+                ✓
+              </span>
+
+              Designed for Android devices
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- CONTACT -->
+
+    <section class="contact-section">
+
+      <div class="container">
+
+        <div class="contact-box">
+
+          <h2>
+            Contact & Privacy
+          </h2>
+
+          <p>
+            For questions regarding White Board - Draw & Teach,
+            please contact:
+          </p>
+
+
+          <a
+            class="contact-email"
+            href="mailto:nonytoons2011@gmail.com"
+          >
+            nonytoons2011@gmail.com
+          </a>
+
+
+          <div class="policy-links">
+
+            <a href="index.html">
+              Privacy Policy
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- FOOTER -->
+
+  <footer>
+
+    <div class="container footer-inner">
+
+      <div class="footer-copy">
+        © 2026 AiTricker. All rights reserved.
+      </div>
+
+      <div class="footer-brand">
+        White Board - Draw & Teach
+      </div>
+
+    </div>
+
+  </footer>
+
+</body>
+</html>
