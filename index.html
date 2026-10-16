@@ -87,7 +87,7 @@
     <p class="meta">
         <strong>App:</strong> White Board &nbsp;|&nbsp;
         <strong>Effective date:</strong> 7 June 2026 &nbsp;|&nbsp;
-        <strong>Last updated:</strong> 7 July 2026
+        <strong>Last updated:</strong> 16 October 2026
     </p>
 
     <div class="card">
@@ -136,6 +136,16 @@
                 gallery and inserted into a board.</li>
             <li><strong>OCR scan history</strong> — text recognized from scanned images
                 is stored locally for your convenience (last 20 scans only).</li>
+            <li><strong>Videos you play on the board</strong> — with the Video tool you choose a
+                video file from your device with the system file picker. It is played on your
+                device only; the App never uploads it. If you record a lesson, the picture and
+                sound of the Video window can be part of your Screen Recorder video (below).</li>
+            <li><strong>Screen Recorder videos</strong> — when you use the Record tool, the
+                video of your board (and, if you switch it on, your voice from the
+                microphone) is saved as a file in your device gallery (folder
+                <code>Movies/WhiteBoard</code>). These videos stay on your device. The App
+                never uploads them and never sends them to our server; they leave your
+                device only if you choose to share them yourself.</li>
             <li><strong>App preferences</strong> (theme, default tools, last-used settings,
                 tour completion flag, session-open count, etc.).</li>
         </ul>
@@ -152,8 +162,10 @@
         <ul>
             <li><strong>Google account authentication:</strong> To use the OCR Scanner,
                 you must sign in with your Google account via
-                <strong>Firebase Authentication</strong>. Your Google user ID (a unique
-                internal identifier) is sent with each OCR request to enforce per-user
+                <strong>Firebase Authentication</strong>. The same sign-in is used by the
+                Screen Recorder. Your Google user ID (a unique
+                internal identifier) is sent with each OCR request, and with the
+                purchase check of the Screen Recorder Pro purchase, to enforce per-user
                 scan limits and verify premium purchase status. We do <strong>not</strong>
                 access or store your Google account name, email address, profile photo,
                 or password.</li>
@@ -178,6 +190,8 @@
             <li>Device identifier (Android ID)</li>
             <li>Number of OCR scans used</li>
             <li>Whether the user has premium status (unlocked via in-app purchase)</li>
+            <li>Whether the user has bought Screen Recorder Pro (a one-time in-app
+                purchase) and its purchase token</li>
             <li>Purchase token (for verifying premium purchases with Google Play)</li>
             <li>Timestamp of the first and last scan</li>
         </ul>
@@ -207,9 +221,18 @@
                     <em>optional</em>; the App also works on devices without a camera.</td>
             </tr>
             <tr>
+                <td><code>RECORD_AUDIO</code></td>
+                <td>Used only when you start a Screen Recorder recording with the
+                    "Record my voice" switch turned on, to record your voice into the
+                    video. The microphone is never used outside a recording and never
+                    in the background; you can turn the switch off and still record
+                    (without your voice). The audio stays in the video file on your
+                    device and is not sent anywhere by the App.</td>
+            </tr>
+            <tr>
                 <td><code>WRITE_EXTERNAL_STORAGE</code><br>(Android 9 and below only)</td>
-                <td>Allows you to export and save your drawings to the device gallery on
-                    older Android versions. On Android 10+ the App uses scoped storage
+                <td>Allows you to export and save your drawings and Screen Recorder videos
+                    to the device gallery on older Android versions. On Android 10+ the App uses scoped storage
                     and this permission is not requested.</td>
             </tr>
             <tr>
@@ -305,13 +328,17 @@
             The App uses <strong>Firebase Authentication</strong> to sign you in with your
             existing Google account when you use the OCR Scanner feature. This is required
             to securely identify you for scan-limit enforcement and premium-status
-            verification.
+            verification. You can also sign in from the Home screen, and the Screen Recorder
+            uses the same sign-in. The Google account sheet you see is shown by Google (the
+            Android Credential Manager) on your device; the App only receives the resulting
+            Google ID token.
         </p>
         <ul>
             <li><strong>Data accessed:</strong> Firebase Authentication receives a Google
                 ID token from Google Sign-In. We only use the opaque user ID (UID)
-                generated by Firebase — we do <strong>not</strong> access, store, or
-                transmit your Google account name, email, profile photo, or password.</li>
+                generated by Firebase — we do <strong>not</strong> store or
+                transmit your Google account name, email, profile photo, or password to our server
+                (your email address is only shown on your own device, on the Home sign-in button).</li>
             <li><strong>Data stored:</strong> The Firebase UID is stored in our Firestore
                 database as the record key for scan-count and premium-status tracking
                 (see Section 2.3).</li>
@@ -348,8 +375,8 @@
         <h3>4.6 Google Play Billing (In-App Purchases)</h3>
         <p>
             The App offers an optional <strong>one-time in-app purchase</strong>
-            ("OCR Premium Unlock") to unlock unlimited OCR scans (subject to a daily
-            fair-use limit). All purchases are processed entirely by
+            ("OCR Premium Unlock") to unlock OCR scans (subject to fair-use limits of 50 scans
+            per day and 500 scans per rolling 30 days). All purchases are processed entirely by
             <strong>Google Play Billing</strong>.
         </p>
         <ul>
@@ -381,11 +408,6 @@
             <li><strong>Digital Ink Recognition (Smart Tool):</strong> Recognizes
                 handwritten shapes and text drawn on the whiteboard and converts them
                 to clean digital shapes or typed text. Processing is fully on-device.</li>
-            <li><strong>Language Identification:</strong> Detects the language of
-                recognized text to assist with translation. Processing is fully on-device.</li>
-            <li><strong>Translation:</strong> Translates recognized text between supported
-                languages. Translation models are downloaded to your device on first use
-                and all processing happens locally.</li>
         </ul>
         <p>
             ML Kit may download language models to your device over the internet. No user
@@ -640,8 +662,8 @@
     <div class="card">
         <ul>
             <li>The App offers an optional one-time in-app purchase ("OCR Premium
-                Unlock") that unlocks unlimited OCR scans (subject to a daily
-                fair-use limit of 200 scans per day).</li>
+                Unlock") that unlocks OCR scans (subject to fair-use limits of
+                50 scans per day and 500 scans per rolling 30 days).</li>
             <li>All purchases are processed by <strong>Google Play Billing</strong>.
                 We do not collect or store any payment information.</li>
             <li>The purchase is a <strong>one-time, non-recurring</strong> payment.
@@ -804,7 +826,7 @@
     <p class="meta">
         <strong>App:</strong> White Board &nbsp;|&nbsp;
         <strong>Effective date:</strong> 7 July 2026 &nbsp;|&nbsp;
-        <strong>Last updated:</strong> 7 July 2026
+        <strong>Last updated:</strong> 16 October 2026
     </p>
 
     <div class="card">
@@ -820,10 +842,21 @@
         <ul>
             <li><strong>Product:</strong> OCR Premium Unlock</li>
             <li><strong>Type:</strong> One-time, non-recurring purchase</li>
-            <li><strong>What it unlocks:</strong> Unlimited OCR (text recognition) scans,
-                subject to a daily fair-use limit of 200 scans per day.</li>
+            <li><strong>What it unlocks:</strong> OCR (text recognition) scans, subject to
+                fair-use limits of 50 scans per day and 500 scans per rolling 30 days.</li>
             <li><strong>Payment processor:</strong> Google Play Billing (all payments
                 are handled entirely by Google Play).</li>
+        </ul>
+        <ul>
+            <li><strong>Product:</strong> Screen Recorder Pro</li>
+            <li><strong>Type:</strong> One-time, non-recurring purchase</li>
+            <li><strong>What it unlocks:</strong> The Screen Recorder without the free
+                limit of 5 minutes per recording and the 1 minute wait between free
+                recordings, for the Google account that bought it. It does not remove
+                advertisements (that is the separate Remove Ads purchase).</li>
+            <li><strong>Payment processor:</strong> Google Play Billing (all payments
+                are handled entirely by Google Play). To request a refund, follow the
+                same steps below and choose the "Screen Recorder Pro" purchase.</li>
         </ul>
     </div>
 
@@ -941,54 +974,18 @@
 </div>
 
 <script>
-function switchTab(tabId, updateUrl) {
+function switchTab(tabId) {
     document.querySelectorAll('.tab-section').forEach(function(s) { s.classList.remove('active'); });
     document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
-
-    var section = document.getElementById(tabId);
-    if (section) {
-        section.classList.add('active');
-    }
-
+    document.getElementById(tabId).classList.add('active');
     var btns = document.querySelectorAll('.tab-btn');
     for (var i = 0; i < btns.length; i++) {
         if (btns[i].getAttribute('onclick').indexOf(tabId) !== -1) {
             btns[i].classList.add('active');
         }
     }
-
-    if (updateUrl !== false) {
-        var newHash = '#' + tabId;
-        if (window.location.hash !== newHash) {
-            history.replaceState(null, '', newHash);
-        }
-    }
-
     window.scrollTo(0, 0);
 }
-
-/* URL-based tab selection:
-   index.html       -> Privacy Policy
-   index.html#terms -> Terms & Conditions
-   index.html#refund -> Refund Policy
-*/
-document.addEventListener('DOMContentLoaded', function() {
-    var hash = window.location.hash.replace('#', '').toLowerCase();
-
-    if (hash === 'terms' || hash === 'refund' || hash === 'privacy') {
-        switchTab(hash, false);
-    } else {
-        switchTab('privacy', false);
-    }
-});
-
-window.addEventListener('hashchange', function() {
-    var hash = window.location.hash.replace('#', '').toLowerCase();
-
-    if (hash === 'terms' || hash === 'refund' || hash === 'privacy') {
-        switchTab(hash, false);
-    }
-});
 </script>
 </body>
 </html>
