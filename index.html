@@ -87,7 +87,7 @@
     <p class="meta">
         <strong>App:</strong> White Board &nbsp;|&nbsp;
         <strong>Effective date:</strong> 7 June 2026 &nbsp;|&nbsp;
-        <strong>Last updated:</strong> 16 October 2026
+        <strong>Last updated:</strong> 25 October 2026
     </p>
 
     <div class="card">
@@ -102,8 +102,9 @@
             The App is provided "as is" and is intended for general drawing, teaching,
             and note-taking on a digital whiteboard. The App works fully offline for its
             core drawing features; an internet connection is required for advertisements,
-            in-app review prompts, the optional Web Image Search feature, and the
-            optional AI-powered OCR Scanner feature.
+            in-app review prompts, the optional Web Image Search feature, the
+            optional AI-powered OCR Scanner feature, and the optional Live Class feature
+            (Section 2.4).
         </p>
     </div>
 
@@ -122,11 +123,11 @@
     <h2>2. Information We Collect</h2>
     <div class="card">
         <p>
-            White Board, by itself, <strong>does not collect any personally identifiable
-            information</strong> (such as your name, email address, phone number, or
-            account credentials). However, the App uses third-party SDKs that automatically
-            collect certain non-personal and device-level information as described in
-            Section 4 below.
+            Most of White Board works only on your device. Information leaves your device only
+            for the optional online features described below: Google sign-in (OCR Scanner,
+            Screen Recorder Pro, Live Class subscription), the OCR Scanner, Web Image Search,
+            in-app purchases, Live Class, and the third-party SDKs listed in Section 4
+            (for example, advertisements). We never sell your information.
         </p>
 
         <h3>2.1 Information stored locally on your device</h3>
@@ -141,8 +142,9 @@
                 device only; the App never uploads it. If you record a lesson, the picture and
                 sound of the Video window can be part of your Screen Recorder video (below).</li>
             <li><strong>Screen Recorder videos</strong> — when you use the Record tool, the
-                video of your board (and, if you switch it on, your voice from the
-                microphone) is saved as a file in your device gallery (folder
+                video of your board (and, if you switch them on, your voice from the
+                microphone and your face from the front camera in a round or square bubble)
+                is saved as a file in your device gallery (folder
                 <code>Movies/WhiteBoard</code>). These videos stay on your device. The App
                 never uploads them and never sends them to our server; they leave your
                 device only if you choose to share them yourself.</li>
@@ -166,9 +168,11 @@
                 Screen Recorder. Your Google user ID (a unique
                 internal identifier) is sent with each OCR request, and with the
                 purchase check of the Screen Recorder Pro purchase, to enforce per-user
-                scan limits and verify premium purchase status. We do <strong>not</strong>
-                access or store your Google account name, email address, profile photo,
-                or password.</li>
+                scan limits and verify premium purchase status. Firebase Authentication
+                (Google) keeps the email address and name of your Google account in our
+                Firebase project so that you can sign in; we use only the user ID on our
+                server, we show your email address only on your own device, and we never
+                see your password.</li>
             <li><strong>Image data:</strong> The photo you capture or select is sent to
                 our server for AI-based text recognition. The image is processed in
                 real-time and is <strong>not stored on the server</strong> — it is
@@ -176,13 +180,14 @@
             <li><strong>Device identifier (Android ID):</strong> A non-resettable,
                 per-app device identifier (<code>Settings.Secure.ANDROID_ID</code>) is
                 sent with each OCR request to prevent abuse (limiting the number of
-                accounts per device). This identifier is <strong>not linked to your
-                name, email, or any personally identifiable information</strong>.</li>
+                accounts per device). On our server it is linked only to the opaque user
+                ID of the account(s) that used OCR on that device &mdash; <strong>never to
+                your name or email address</strong>.</li>
         </ul>
 
         <h3>2.3 Information stored on our server</h3>
         <p>
-            The following non-personal data is stored in <strong>Google Cloud Firestore</strong>
+            The following data is stored in <strong>Google Cloud Firestore</strong>
             (a Google-managed database) to enforce scan limits and track premium status:
         </p>
         <ul>
@@ -192,13 +197,76 @@
             <li>Whether the user has premium status (unlocked via in-app purchase)</li>
             <li>Whether the user has bought Screen Recorder Pro (a one-time in-app
                 purchase) and its purchase token</li>
+            <li>Whether the user has bought Remove Ads (a one-time in-app purchase) and its
+                purchase token</li>
             <li>Purchase token (for verifying premium purchases with Google Play)</li>
             <li>Timestamp of the first and last scan</li>
+            <li>For a Live Class subscription: the purchase token, its state (active,
+                expired, ...), whether at least one period was paid, and small daily usage
+                counters (classes started, minutes of audio and camera today)</li>
+            <li>A record that a purchase token has already been used by an account (the
+                account's user ID, the product and the date), so that one purchase cannot be
+                claimed by several accounts</li>
         </ul>
         <p>
-            <strong>No images, recognized text, user names, emails, or any personally
-            identifiable information is stored on our server.</strong>
+            <strong>No OCR images and no recognized text are stored on our server.</strong>
+            Live Class data is described in Section 2.4 and is deleted with the class.
         </p>
+
+        <h3>2.4 Live Class (teachers and students)</h3>
+        <p>
+            Live Class lets a teacher show the board live on students' phones, speak to the
+            class and, if the teacher wants, show their face. It works only while a class is
+            running.
+        </p>
+        <ul>
+            <li><strong>Teachers:</strong> To start a class you need a Live Class subscription
+                bought through Google Play with your Google account. We send to our servers the
+                class name you type, a 6-digit class code, and what you show on your board during
+                the class (pen strokes, shapes, text, page changes, the visible area of the board,
+                the laser pointer, the board colour and the geometry tools). PDF pages you open are
+                sent as compressed pictures (at most 300 KB each) so that students can see them. If
+                you use "Show to class", a picture of that student's board is sent to the class,
+                without the student's name unless you choose "Show name".</li>
+            <li><strong>Teacher's microphone and camera:</strong> If you turn on the mic, your
+                voice is sent live to the students of the class. If you turn on the face cam, a
+                video of your face is sent live to them. The App asks before it uses the
+                microphone or the camera, and you can turn either off at any time. The voice and
+                the video are <strong>not recorded or stored</strong> by us; they are relayed in
+                real time (see "Who processes the data" below).</li>
+            <li><strong>Students:</strong> To join a class you type the class code and a name (your
+                first name or a roll number is enough). You need no account. Only your teacher sees
+                your name, unless your teacher calls you to the board (your name is shown next to
+                what you write) or shows your work to the class with your name. We also send
+                whether you are connected, when you were last active, and a raised hand. If your
+                teacher lets you draw on your own board, only your teacher sees it. If your teacher
+                calls you to the board, the whole class sees what you write.</li>
+            <li><strong>Student's microphone:</strong> While you are on the board your microphone is
+                on, and your teacher and the class hear you. The App tells you this and asks before
+                it uses the microphone. Your voice is <strong>not recorded or stored</strong> by us.
+                Students' phones never send video. The QR scanner is Google's code scanner in
+                Google Play services.</li>
+            <li><strong>Anonymous identifier:</strong> Every phone that uses Live Class gets an
+                anonymous identifier from Firebase Authentication (no name, email or phone number),
+                so that our servers can tell the phones of a class apart. An identifier that is not
+                used for 30 days is deleted.</li>
+            <li><strong>Who processes the data and where:</strong> Google Firebase stores the class
+                data for us: the live data in Firebase Realtime Database in Singapore (we may add
+                databases in the United States and Belgium so that classes far from Asia are faster;
+                a class then stays in the database nearest its teacher) and the pictures in Cloud
+                Storage in Mumbai, India. The live voice and video are relayed by Cloudflare's
+                network (Cloudflare Realtime) from the city nearest each phone; Cloudflare processes
+                them only to deliver them. Firebase and Cloudflare also see technical data needed to
+                connect, such as the IP address. Both act as our service providers.</li>
+            <li><strong>How long:</strong> A class and everything in it (names, board data,
+                pictures) is deleted from our servers when the teacher ends it, or automatically 15
+                minutes after the teacher's phone stops connecting, and in any case after at most 12
+                hours. Pictures are deleted at the latest one day after upload. Live voice and video
+                are never stored. The teacher's board stays on the teacher's phone in History like
+                any other board.</li>
+            <li>We do not use class data for advertising or profiling, we do not sell it, and we
+                show no ads anywhere in Live Class.</li>
+        </ul>
     </div>
 
     <h2>3. Permissions Used by the App</h2>
@@ -215,19 +283,27 @@
             </tr>
             <tr>
                 <td><code>CAMERA</code></td>
-                <td>Used only when you tap the in-app "Camera" option to capture a photo
-                    and insert it into your whiteboard. The camera is never accessed
-                    silently or in the background. The hardware feature is declared as
-                    <em>optional</em>; the App also works on devices without a camera.</td>
+                <td>Used only when you choose it: (1) the in-app "Camera" option to capture a
+                    photo and insert it into your whiteboard; (2) the Screen Recorder's "Face cam"
+                    (your face stays in the video file on your device); (3) a Live Class teacher's
+                    "Face cam" (your face is sent live to your students, not stored). The camera is
+                    never accessed silently or in the background. The hardware feature is declared
+                    as <em>optional</em>; the App also works on devices without a camera.</td>
             </tr>
             <tr>
                 <td><code>RECORD_AUDIO</code></td>
-                <td>Used only when you start a Screen Recorder recording with the
-                    "Record my voice" switch turned on, to record your voice into the
-                    video. The microphone is never used outside a recording and never
-                    in the background; you can turn the switch off and still record
-                    (without your voice). The audio stays in the video file on your
-                    device and is not sent anywhere by the App.</td>
+                <td>Used only when you choose it: (1) a Screen Recorder recording with
+                    "Record my voice" on (the audio stays in the video file on your device);
+                    (2) a Live Class teacher's mic (your voice is sent live to your students,
+                    not stored); (3) a Live Class student called to the board (your voice is
+                    sent live to the teacher and the class while you are on the board, not
+                    stored). The App explains this before Android's permission prompt, and the
+                    microphone is never used in the background.</td>
+            </tr>
+            <tr>
+                <td><code>MODIFY_AUDIO_SETTINGS</code></td>
+                <td>Lets Live Class route the call audio (speaker / earpiece) correctly. It does
+                    not give access to any data and shows no prompt.</td>
             </tr>
             <tr>
                 <td><code>WRITE_EXTERNAL_STORAGE</code><br>(Android 9 and below only)</td>
@@ -335,15 +411,17 @@
         </p>
         <ul>
             <li><strong>Data accessed:</strong> Firebase Authentication receives a Google
-                ID token from Google Sign-In. We only use the opaque user ID (UID)
-                generated by Firebase — we do <strong>not</strong> store or
-                transmit your Google account name, email, profile photo, or password to our server
-                (your email address is only shown on your own device, on the Home sign-in button).</li>
+                ID token from Google Sign-In and keeps your Google account's email address and
+                name in our Firebase project so that you can sign in. Our own server uses only the
+                opaque user ID (UID) generated by Firebase; your email address is shown only on
+                your own device (on the Home sign-in button). We never see your password.</li>
             <li><strong>Data stored:</strong> The Firebase UID is stored in our Firestore
                 database as the record key for scan-count and premium-status tracking
                 (see Section 2.3).</li>
             <li><strong>Sign-out:</strong> You can sign out of the App at any time. Your
                 locally stored drawings and boards are not affected by sign-out.</li>
+            <li><strong>Delete your account:</strong> You can delete your account and the data our
+                server keeps for it from inside the App (see Section 8.1).</li>
         </ul>
         <p>
             Firebase Authentication is governed by:
@@ -354,9 +432,9 @@
         <h3>4.5 Firebase App Check (Play Integrity)</h3>
         <p>
             The App uses <strong>Firebase App Check</strong> with the
-            <strong>Play Integrity API</strong> to verify that OCR requests originate from
-            a genuine, unmodified installation of the App. This helps protect our server
-            from automated abuse.
+            <strong>Play Integrity API</strong> to verify that OCR, purchase and Live Class
+            requests originate from a genuine, unmodified installation of the App. This helps
+            protect our server from automated abuse.
         </p>
         <ul>
             <li><strong>Data sent:</strong> An App Check token (generated by the Play
@@ -374,10 +452,12 @@
 
         <h3>4.6 Google Play Billing (In-App Purchases)</h3>
         <p>
-            The App offers an optional <strong>one-time in-app purchase</strong>
-            ("OCR Premium Unlock") to unlock OCR scans (subject to fair-use limits of 50 scans
-            per day and 500 scans per rolling 30 days). All purchases are processed entirely by
-            <strong>Google Play Billing</strong>.
+            The App offers optional purchases, all processed entirely by
+            <strong>Google Play Billing</strong>: the one-time purchases "OCR Premium Unlock"
+            (OCR scans, subject to fair-use limits of 50 scans per day and 500 scans per rolling
+            30 days), "Screen Recorder Pro" and "Remove Ads", and the
+            <strong>Live Class subscription</strong> for teachers (monthly or yearly, renewed
+            automatically by Google Play until you cancel it in Google Play).
         </p>
         <ul>
             <li><strong>Payment data:</strong> All payment information (credit/debit card
@@ -401,8 +481,8 @@
         <h3>4.7 Google ML Kit (On-Device AI Features)</h3>
         <p>
             The App uses <strong>Google ML Kit</strong> for the following on-device AI
-            features. All ML Kit processing happens <strong>entirely on your device</strong>
-            — no data is sent to any server for these features.
+            features. The recognition itself happens <strong>entirely on your device</strong>;
+            your drawings and text are not sent anywhere.
         </p>
         <ul>
             <li><strong>Digital Ink Recognition (Smart Tool):</strong> Recognizes
@@ -410,8 +490,12 @@
                 to clean digital shapes or typed text. Processing is fully on-device.</li>
         </ul>
         <p>
-            ML Kit may download language models to your device over the internet. No user
-            content (text, drawings, or images) is sent to Google's servers by ML Kit.
+            ML Kit may download language models to your device over the internet. Like other
+            Google SDKs, ML Kit sends Google technical diagnostics and usage data (device and app
+            information, per-installation identifiers, performance and error events, the configured
+            language) to keep the feature working; no user content (text, drawings, or images) is
+            sent. Google's ML Kit data disclosure:
+            <a href="https://developers.google.com/ml-kit/android-data-disclosure" target="_blank" rel="noopener">https://developers.google.com/ml-kit/android-data-disclosure</a>
             <br>
             <a href="https://developers.google.com/ml-kit/terms" target="_blank" rel="noopener">https://developers.google.com/ml-kit/terms</a>
         </p>
@@ -449,10 +533,12 @@
             scan limit (5 per device) and prevent abuse.
         </p>
         <ul>
-            <li><strong>Data stored:</strong> Device identifier (Android ID), scan count,
-                premium status, and first/last scan timestamps.</li>
+            <li><strong>Data stored:</strong> The opaque Firebase user ID of the signed-in
+                account, the device identifier (Android ID) and the user IDs that used OCR on
+                that device, scan count, premium status, purchase tokens, and first/last scan
+                timestamps.</li>
             <li><strong>Data NOT stored:</strong> No images, recognized text, user names,
-                emails, IP addresses, or any personally identifiable information.</li>
+                email addresses or IP addresses.</li>
             <li><strong>Hosting:</strong> Firestore is hosted by Google Cloud Platform
                 in the asia-south1 (Mumbai) region.</li>
         </ul>
@@ -466,9 +552,29 @@
         <p>
             The App does <strong>not</strong> integrate Firebase Analytics, Crashlytics,
             Facebook SDK, or any other analytics or attribution SDK. Our server-side
-            infrastructure is limited to the OCR processing, scan-limit tracking, and
-            purchase verification described above — there is no cloud sync of your
-            drawings and no tracking beyond what is described in this policy.
+            infrastructure is limited to the OCR processing, scan-limit tracking, purchase
+            verification and Live Class described in this policy — there is no cloud sync of
+            your drawings and no tracking beyond what is described here.
+        </p>
+
+        <h3>4.11 Firebase Realtime Database and Cloud Storage (Live Class)</h3>
+        <p>
+            Live Class uses <strong>Firebase Realtime Database</strong> (Singapore; possibly also
+            the United States and Belgium later) for the live class data and <strong>Cloud Storage
+            for Firebase</strong> (Mumbai, India) for PDF-page pictures. Firebase also receives
+            technical connection data such as the IP address. Details and deletion: Section 2.4.
+            <br>
+            <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">https://firebase.google.com/support/privacy</a>
+        </p>
+
+        <h3>4.12 Cloudflare Realtime (Live Class voice and video)</h3>
+        <p>
+            The live voice and video of Live Class are relayed by <strong>Cloudflare</strong>
+            (Cloudflare Realtime), encrypted in transit (WebRTC). Cloudflare processes them only to
+            deliver them in real time; we do not record or store them. Cloudflare sees technical
+            connection data such as the IP address.
+            <br>
+            <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">https://www.cloudflare.com/privacypolicy/</a>
         </p>
     </div>
 
@@ -495,9 +601,8 @@
         <p>
             Under GDPR / UK GDPR you have the right to access, rectify, erase, or
             restrict processing of your personal data. For data processed by AdMob,
-            such requests should be directed to Google. For the device identifier and
-            scan-count record stored on our server (Firestore), you may request deletion
-            by contacting us at
+            such requests should be directed to Google. To delete your account and the data our
+            server keeps for it, see Section 8.1; for other requests contact us at
             <a href="mailto:nonytoons2011@gmail.com">nonytoons2011@gmail.com</a>.
             You can also uninstall the App to stop further processing on your device.
         </p>
@@ -518,15 +623,54 @@
         <p>
             White Board is <strong>not directed at children under the age of 13</strong>
             (or the equivalent minimum age in your jurisdiction). We do not knowingly
-            collect personal information from children. If you are a parent or guardian
+            collect personal information from children. Live Class students must also be 13 or
+            older; teachers decide who receives a class code. If you are a parent or guardian
             and believe that your child has provided information to us, please contact
             us at <a href="mailto:nonytoons2011@gmail.com">nonytoons2011@gmail.com</a>
             and we will take appropriate steps.
         </p>
     </div>
 
-    <h2>8. Data Retention and Deletion</h2>
+    <h2 id="delete-account">8. Data Retention and Deletion</h2>
     <div class="card">
+        <h3>8.1 Delete your White Board account</h3>
+        <p>
+            This applies if you signed in to White Board (developer: AiTricker) with your Google
+            account. You can delete your account and the data our server keeps for it at any time:
+        </p>
+        <ul>
+            <li><strong>In the App</strong> (latest version): open the Home screen, tap the
+                <strong>Settings</strong> (gear) icon, then <strong>Account &rarr; Delete account</strong>,
+                read what will be deleted and tap <strong>Delete account</strong>. It happens at once.</li>
+            <li><strong>By email:</strong> write to
+                <a href="mailto:nonytoons2011@gmail.com?subject=Delete%20my%20White%20Board%20account">nonytoons2011@gmail.com</a>
+                from the Gmail address you signed in with, subject "Delete my White Board account".
+                We reply and delete the account within 30 days.</li>
+        </ul>
+        <p><strong>What is deleted:</strong> your sign-in (the Firebase account with your email
+            address and name), your OCR scan record, OCR Premium and Screen Recorder Pro unlocks,
+            your Live Class subscription record and its daily usage counters.</p>
+        <p><strong>What is kept, and why:</strong></p>
+        <ul>
+            <li>A record that a purchase token was already used (the deleted account's user ID,
+                the product and the date), so that one purchase cannot be claimed again by another
+                account (fraud prevention). It holds no name or email.</li>
+            <li>The free-scan counter of your <em>phone</em> (Android ID, number of scans), which is
+                not linked to your account and stops the free limit from being reset.</li>
+            <li>Google Play keeps its own purchase records; the Remove Ads purchase comes back with
+                "Restore purchases". OCR Premium, Screen Recorder Pro and the Live Class subscription
+                cannot be moved to a new sign-in after the account is deleted.</li>
+            <li>Deleting the account does <strong>not</strong> cancel a Live Class subscription:
+                cancel it in Google Play (Payments and subscriptions) first.</li>
+            <li>Server logs may keep technical entries for up to 30 days.</li>
+        </ul>
+        <p>
+            <strong>Delete some data without deleting the account:</strong> email us at the address
+            above and say what to delete (for example, your OCR scan record). Live Class data is
+            deleted automatically (Section 2.4).
+        </p>
+
+        <h3>8.2 Local data and other data</h3>
         <p>
             <strong>Local data:</strong> All user-created content (drawings, photos,
             sessions, scan history, preferences) is stored locally on your device. You
@@ -543,10 +687,7 @@
             Firestore (device identifier, scan count, timestamps) is retained to enforce
             the free scan limit. Images sent for OCR processing are <strong>not
             retained</strong> — they are discarded immediately after text recognition
-            is complete. If you wish to have your scan-count record deleted from our
-            server, please contact us at
-            <a href="mailto:nonytoons2011@gmail.com">nonytoons2011@gmail.com</a>
-            with your request.
+            is complete. To delete your account's server data see Section 8.1.
         </p>
         <p>
             For data collected by AdMob, please refer to Google's data deletion
@@ -559,8 +700,9 @@
         <p>
             User content is stored in the App's private storage area on your device,
             which is protected by Android's app-sandbox model. All network traffic —
-            including OCR image uploads, scan-limit checks, AdMob requests, and Google
-            Play services — is encrypted in transit using HTTPS / TLS. Server-side data
+            including OCR image uploads, scan-limit checks, AdMob requests, Google
+            Play services and Live Class — is encrypted in transit using HTTPS / TLS (Live Class
+            voice and video: WebRTC encryption). Server-side data
             in Firestore is protected by Google Cloud Platform's security infrastructure
             including encryption at rest.
         </p>
@@ -617,7 +759,7 @@
     <p class="meta">
         <strong>App:</strong> White Board &nbsp;|&nbsp;
         <strong>Effective date:</strong> 7 July 2026 &nbsp;|&nbsp;
-        <strong>Last updated:</strong> 7 July 2026
+        <strong>Last updated:</strong> 25 October 2026
     </p>
 
     <div class="card">
@@ -647,29 +789,31 @@
     <h2>2. User Accounts &amp; Authentication</h2>
     <div class="card">
         <ul>
-            <li>Certain features (such as the OCR Scanner) require you to sign in with
-                your Google account via Firebase Authentication.</li>
+            <li>Certain features (the OCR Scanner, Screen Recorder Pro, starting a Live Class)
+                require you to sign in with your Google account via Firebase Authentication.</li>
             <li>You are responsible for maintaining the security of your Google account.</li>
-            <li>We do not store your Google account password, email, or profile
-                information on our servers. Only an opaque user identifier (UID) is
-                used for scan-limit enforcement.</li>
+            <li>Our server uses only an opaque user identifier (UID); Firebase Authentication
+                keeps your email address and name so that you can sign in (see the Privacy Policy).</li>
             <li>You may sign out at any time without losing your locally stored
-                drawings or boards.</li>
+                drawings or boards, and you may delete your account in Settings (Privacy Policy,
+                Section 8.1).</li>
         </ul>
     </div>
 
     <h2>3. In-App Purchases</h2>
     <div class="card">
         <ul>
-            <li>The App offers an optional one-time in-app purchase ("OCR Premium
-                Unlock") that unlocks OCR scans (subject to fair-use limits of
-                50 scans per day and 500 scans per rolling 30 days).</li>
+            <li>The App offers optional one-time in-app purchases: "OCR Premium Unlock"
+                (OCR scans, subject to fair-use limits of 50 scans per day and 500 scans per
+                rolling 30 days), "Screen Recorder Pro" and "Remove Ads".</li>
             <li>All purchases are processed by <strong>Google Play Billing</strong>.
                 We do not collect or store any payment information.</li>
-            <li>The purchase is a <strong>one-time, non-recurring</strong> payment.
-                There are no subscriptions or hidden charges.</li>
-            <li>Once purchased, the premium unlock is tied to your Google account and
-                can be restored on the same account.</li>
+            <li>The one-time purchases are <strong>non-recurring</strong> payments with no hidden
+                charges. The only recurring purchase is the optional Live Class subscription
+                (Section 4A).</li>
+            <li>OCR Premium and Screen Recorder Pro are tied to the Google account you were signed
+                in with and can be restored on the same account. If you delete that account, they
+                cannot be moved to a new sign-in.</li>
             <li>Refunds are handled in accordance with Google Play's refund policies.
                 See the Refund Policy tab above for details.</li>
         </ul>
@@ -689,6 +833,37 @@
                 servers — they are discarded immediately after processing.</li>
             <li>We reserve the right to impose fair-use limits to prevent abuse of the
                 OCR service.</li>
+        </ul>
+    </div>
+
+    <h2>4A. Live Class</h2>
+    <div class="card">
+        <ul>
+            <li><strong>Subscription:</strong> Live Class is an optional subscription for
+                teachers, billed monthly or yearly (the plan you choose) through Google Play
+                Billing. The price is shown in the App and in Google Play before you buy and may
+                differ by country. If a free trial is offered, it lasts the number of days shown;
+                when it ends, Google Play charges the price of your plan automatically unless you
+                cancel before the trial ends. The subscription renews every period until you cancel
+                it in Google Play (Account &rarr; Payments and subscriptions &rarr; Subscriptions,
+                or "Manage subscription" in the App); you keep access until the end of the period
+                you paid for. Refunds follow Google Play's refund policy. Students never pay and
+                need no account.</li>
+            <li><strong>Who may use it:</strong> teachers and students must be 13 or older. By
+                creating or joining a class you accept these Terms and the Privacy Policy.</li>
+            <li><strong>Your content and conduct:</strong> the teacher is responsible for sharing
+                the class code only with their students and for what is shown in the class.
+                Everyone in a class must respect others: no harassment, hate, sexual or violent
+                content, and no recording or sharing of other people without their permission.</li>
+            <li><strong>Moderation and reporting:</strong> the teacher can remove or block a
+                student, take back the board and end the class. Anyone can report a person or
+                content to us at
+                <a href="mailto:nonytoons2011@gmail.com">nonytoons2011@gmail.com</a>
+                (and, in the latest version, from inside the App). We may stop a class, refuse new
+                classes, or block an account that breaks these Terms.</li>
+            <li><strong>Limits:</strong> up to 40 students and 3 running classes per teacher,
+                12 hours per class, and fair-use limits for audio and video; we may stop a class to
+                protect the service.</li>
         </ul>
     </div>
 
@@ -764,9 +939,9 @@
     <div class="card">
         <ul>
             <li>Core drawing features work fully offline.</li>
-            <li>Online features (OCR Scanner, Web Image Search, advertisements) require
-                an internet connection and depend on third-party services (Google Cloud,
-                Wikimedia, AdMob).</li>
+            <li>Online features (OCR Scanner, Web Image Search, Live Class, advertisements)
+                require an internet connection and depend on third-party services (Google Cloud /
+                Firebase, Cloudflare, Wikimedia, AdMob).</li>
             <li>We reserve the right to modify, suspend, or discontinue any feature of
                 the App at any time, with or without notice.</li>
             <li>We are not responsible for downtime caused by third-party service
@@ -777,8 +952,8 @@
     <h2>11. Termination</h2>
     <div class="card">
         <p>
-            We reserve the right to restrict or terminate your access to the OCR service
-            if we detect abuse, fraud, or violation of these Terms. You may stop using
+            We reserve the right to restrict or terminate your access to the OCR service or
+            Live Class if we detect abuse, fraud, or violation of these Terms. You may stop using
             the App at any time by uninstalling it.
         </p>
     </div>
@@ -986,6 +1161,11 @@ function switchTab(tabId) {
     }
     window.scrollTo(0, 0);
 }
+// A link ending in #terms or #refund (the app's "Terms" button) opens that tab directly.
+(function () {
+    var tab = (window.location.hash || '').replace('#', '');
+    if (tab === 'terms' || tab === 'refund') switchTab(tab);
+})();
 </script>
 </body>
 </html>
