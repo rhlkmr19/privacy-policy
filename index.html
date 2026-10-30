@@ -87,7 +87,7 @@
     <p class="meta">
         <strong>App:</strong> White Board &nbsp;|&nbsp;
         <strong>Effective date:</strong> 7 June 2026 &nbsp;|&nbsp;
-        <strong>Last updated:</strong> 27 October 2026
+        <strong>Last updated:</strong> 30 October 2026
     </p>
 
     <div class="card">
@@ -660,13 +660,19 @@
                 We reply and delete the account within 30 days.</li>
         </ul>
         <p><strong>What is deleted:</strong> your sign-in (the Firebase account with your email
-            address and name), your OCR scan record, OCR Premium and Screen Recorder Pro unlocks,
+            address and name), your OCR scan record (except the used free-scan count below),
+            OCR Premium and Screen Recorder Pro unlocks,
             your Live Class subscription record and its daily usage counters.</p>
         <p><strong>What is kept, and why:</strong></p>
         <ul>
-            <li>A record that a purchase token was already used (the deleted account's user ID,
-                the product and the date), so that one purchase cannot be claimed again by another
-                account (fraud prevention). It holds no name or email.</li>
+            <li>A record that a purchase token was already used (the deleted account's user ID, a
+                one-way coded form of its Google account ID, the product and the date), so that one
+                purchase cannot be claimed again by another account (fraud prevention). It holds no
+                name or email.</li>
+            <li>A record of how many free OCR scans and scan attempts a Google account used (a one-way
+                coded form of the Google account ID and those counts), so that the free scan limit
+                cannot be reset by deleting and re-creating the account (fraud prevention). It holds
+                no name or email.</li>
             <li>A record that a Google account already had the Live Class free trial (a one-way coded
                 form of the Google account ID and the date), so that the free trial cannot be taken
                 again by deleting and re-creating the account (fraud prevention). It holds no name or
