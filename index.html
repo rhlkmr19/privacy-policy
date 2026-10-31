@@ -87,7 +87,7 @@
     <p class="meta">
         <strong>App:</strong> White Board &nbsp;|&nbsp;
         <strong>Effective date:</strong> 7 June 2026 &nbsp;|&nbsp;
-        <strong>Last updated:</strong> 30 October 2026
+        <strong>Last updated:</strong> 31 October 2026
     </p>
 
     <div class="card">
@@ -233,7 +233,11 @@
                 video of your face is sent live to them. The App asks before it uses the
                 microphone or the camera, and you can turn either off at any time. The voice and
                 the video are <strong>not recorded or stored</strong> by us; they are relayed in
-                real time (see "Who processes the data" below).</li>
+                real time (see "Who processes the data" below). If you leave the App for a moment
+                during the class (for example to pick a PDF file), the mic and the face cam you turned
+                on keep working, and Android shows a "Live class is on" notification while they do;
+                they stop when you turn them off or end the class. The App tells you this before it
+                turns them on.</li>
             <li><strong>Students:</strong> To join a class you type the class code and a name (your
                 first name or a roll number is enough). You need no account. Only your teacher sees
                 your name, unless your teacher calls you to the board (your name is shown next to
@@ -299,7 +303,10 @@
                     photo and insert it into your whiteboard; (2) the Screen Recorder's "Face cam"
                     (your face stays in the video file on your device); (3) a Live Class teacher's
                     "Face cam" (your face is sent live to your students, not stored). The camera is
-                    never accessed silently or in the background. The hardware feature is declared
+                    never accessed silently. The only time it keeps working while the App is not in
+                    front is a Live Class teacher's face cam that the teacher turned on: if the teacher
+                    leaves the App for a moment during the class, it keeps sending, with a "Live class
+                    is on" notification, until the teacher turns it off or ends the class. The hardware feature is declared
                     as <em>optional</em>; the App also works on devices without a camera.</td>
             </tr>
             <tr>
@@ -309,13 +316,32 @@
                     (2) a Live Class teacher's mic (your voice is sent live to your students,
                     not stored); (3) a Live Class student called to the board (your voice is
                     sent live to the teacher and the class while you are on the board, not
-                    stored). The App explains this before Android's permission prompt, and the
-                    microphone is never used in the background.</td>
+                    stored). The App explains this before Android's permission prompt. The
+                    microphone is never used silently. The only time it keeps working while the App
+                    is not in front is a Live Class teacher's mic that the teacher turned on (with a
+                    "Live class is on" notification); it stops when the teacher turns it off or ends
+                    the class.</td>
             </tr>
             <tr>
                 <td><code>MODIFY_AUDIO_SETTINGS</code></td>
                 <td>Lets Live Class route the call audio (speaker / earpiece) correctly. It does
                     not give access to any data and shows no prompt.</td>
+            </tr>
+            <tr>
+                <td><code>FOREGROUND_SERVICE</code>, <code>FOREGROUND_SERVICE_MICROPHONE</code>,
+                    <code>FOREGROUND_SERVICE_CAMERA</code></td>
+                <td>Let a Live Class teacher's mic and face cam keep working when the teacher leaves
+                    the App for a moment during a class. The service runs only while the teacher's mic
+                    or face cam is on, shows a "Live class is on" notification, and stops when they are
+                    turned off or the class ends. It gives no access to any other data and is never
+                    used on students' phones.</td>
+            </tr>
+            <tr>
+                <td><code>POST_NOTIFICATIONS</code><br>(Android 13 and above)</td>
+                <td>Shows the "Live class is on" notification while a Live Class teacher's mic or face
+                    cam is on. It is asked once, the first time the teacher turns the mic or the face
+                    cam on; the class works the same if you say no. The App sends no other
+                    notifications.</td>
             </tr>
             <tr>
                 <td><code>WRITE_EXTERNAL_STORAGE</code><br>(Android 9 and below only)</td>
