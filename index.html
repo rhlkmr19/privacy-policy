@@ -87,7 +87,7 @@
     <p class="meta">
         <strong>App:</strong> White Board &nbsp;|&nbsp;
         <strong>Effective date:</strong> 7 June 2026 &nbsp;|&nbsp;
-        <strong>Last updated:</strong> 15 November 2026
+        <strong>Last updated:</strong> 20 November 2026
     </p>
 
     <div class="card">
@@ -153,33 +153,33 @@
         </ul>
         <p>
             Locally stored data is kept <strong>on your device only</strong> using
-            Android's built-in storage APIs, Room database and Jetpack DataStore, unless you
-            turn on the optional Google Drive backup (Section 2.1a).
+            Android's built-in storage APIs, Room database and Jetpack DataStore. A backup file
+            is made only when you tap Back up (Section 2.1a).
         </p>
 
-        <h3>2.1a Optional Google Drive backup (your own Google Drive)</h3>
+        <h3>2.1a Backup file (made only when you tap Back up)</h3>
         <p>
-            If you turn on <strong>Backup &amp; Restore</strong> in Settings, the App copies your
-            boards to a <strong>hidden app folder in your own Google Drive</strong>, in the Google
-            account you sign in with. What is copied: your boards (drawings, text, shapes, board
-            names and settings), the pictures and PDF files placed on them, boards in Recently
-            deleted (kept there for 30 days), and for boards you taught in Live Class the class
-            code and the anonymous student IDs remembered for that board.
+            In <strong>Settings &rarr; Backup &amp; Restore</strong> (and in History) you can tap
+            <strong>Back up now</strong>. The App then writes <strong>one backup file</strong> on your
+            device, in the <strong>Downloads &rarr; WhiteBoard</strong> folder (on Android 8 and 9 you
+            choose the place). What is in the file: your boards (drawings, text, shapes, board names
+            and settings), the pictures and PDF files placed on them, and for boards you taught in
+            Live Class the class code and the anonymous student IDs remembered for that board.
+            Boards in Recently deleted are not included.
         </p>
         <ul>
-            <li>The App asks for Google's <strong>drive.appdata</strong> permission only. It lets
-                the App see <strong>only its own hidden folder</strong>, never your other Drive
-                files.</li>
-            <li>The copy goes <strong>directly from your device to your Google Drive</strong>. It
-                never passes through and is never stored on our servers, and we cannot see it.</li>
-            <li>Backups run about once a day on the network you choose (Wi-Fi only, or Wi-Fi +
-                mobile data) and when you tap <strong>Back up now</strong>. <strong>Restore</strong>
-                brings the boards back to your device, for example after reinstalling the App.</li>
-            <li>You can turn Auto backup off in Settings at any time. To remove the copy, open
-                Google Drive &rarr; Settings &rarr; Manage apps &rarr; White Board &rarr; Delete
-                hidden app data, or remove the App's access in your Google account. Deleting your
-                White Board account (Section 8.1) stops the backup and removes the App's Drive
-                permission; the copy in your Drive stays until you delete it there.</li>
+            <li>The file is made <strong>on your device</strong>. It is <strong>never sent to our
+                servers</strong> and we cannot see it. The App does not use any Google Drive or other
+                cloud API for this.</li>
+            <li>If you want a copy outside the phone, you can share the file yourself, for example
+                with the <strong>Save to Google Drive</strong> button, which opens Android's share
+                sheet; the app you pick (such as Google Drive) uploads it under that app's own
+                terms.</li>
+            <li><strong>Restore from backup file</strong> reads a file you pick and adds its boards
+                back on this device. Nothing on the device is deleted by a restore.</li>
+            <li>The backup file is not encrypted: anyone who gets the file can open the boards in
+                it, so keep it as you would keep the boards themselves. You can delete backup files
+                at any time with your phone's Files app. Uninstalling the App does not delete them.</li>
         </ul>
 
         <h3>2.2 Information sent to our server</h3>
@@ -641,13 +641,6 @@
             <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">https://www.cloudflare.com/privacypolicy/</a>
         </p>
 
-        <h3>4.13 Google Drive API (optional backup)</h3>
-        <p>
-            Only if you turn on Backup &amp; Restore: the App uses the Google Drive API with the
-            drive.appdata permission to keep a copy of your boards in a hidden folder of your own
-            Google Drive (Section 2.1a). Google's privacy policy applies to your Google Drive:
-            <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a>.
-        </p>
     </div>
 
     <h2>5. Users in the European Economic Area (EEA), UK and Switzerland — GDPR</h2>
@@ -766,8 +759,9 @@
             <li>Clearing the App's data:
                 <em>Android Settings &rarr; Apps &rarr; White Board &rarr; Storage &rarr; Clear data</em>.</li>
             <li>Uninstalling the App, which removes all locally stored data.</li>
-            <li>If you used the optional Google Drive backup, its copy stays in your own Google
-                Drive until you delete it there (Section 2.1a).</li>
+            <li>Backup files you made (Section 2.1a) are not removed by uninstalling the App;
+                delete them with your phone's Files app, and any copy you shared from the place you
+                shared it to.</li>
         </ul>
         <p>
             <strong>Server-side data:</strong> The OCR scan count record stored in
