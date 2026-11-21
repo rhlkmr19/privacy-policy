@@ -87,7 +87,7 @@
     <p class="meta">
         <strong>App:</strong> White Board &nbsp;|&nbsp;
         <strong>Effective date:</strong> 7 June 2026 &nbsp;|&nbsp;
-        <strong>Last updated:</strong> 20 November 2026
+        <strong>Last updated:</strong> 21 November 2026
     </p>
 
     <div class="card">
@@ -301,11 +301,38 @@
                 are never stored. The teacher's board stays on the teacher's phone in History like
                 any other board.</li>
             <li><strong>Reports:</strong> In the latest version, a student can report the class or
-                its teacher from inside the class. A report keeps the reason and the optional note,
+                its teacher, and a teacher can report a student's chat messages, from inside the class
+                (chat: also later, see "Reporting chat"). A report keeps the reason and the optional note,
                 the class name and code, the name the student uses in the class, the anonymous
                 identifiers of the student and the teacher and, for a paid class, the teacher's account user ID. The teacher is not
                 told who sent a report. We keep a report for 90 days to look at it, then it is deleted; we may stop
                 a class, refuse new classes or block an account that breaks the Terms.</li>
+            <li><strong>Class chat:</strong> In the latest version a teacher can turn on chat for a class.
+                The teacher can send messages to the whole class and pin one, and each student can write to
+                the teacher in a private chat that only that student and the teacher can read. Students
+                never see each other's messages. Students can also tap quick replies (for example "Please
+                repeat"); only the teacher sees them. We store each message's text, who sent it (the
+                anonymous identifier, see below) and the time, plus counters we need for the limits
+                (message counts, slow mode, mutes). Before a typed message is stored, our server checks it
+                and refuses phone numbers, email addresses, links (students and private replies) and bad
+                words; a refused message is not stored. The teacher can delete a student's message, mute a
+                student or everyone, and turn chat off. The App does not keep chat on the phone after the
+                class: it is not saved in History or in a class copy.</li>
+            <li><strong>How long chat is kept:</strong> chat is part of the class and is deleted with it
+                (see "How long": when the class ends, and at most 12 hours after it started). For safety we
+                also keep a separate copy of every private message (student to teacher and teacher to
+                student; not the messages to the whole class) for 7 days, so that a message can still be
+                reported after the class. Nobody can open this copy from the App, not even the teacher or
+                the student; we look at it only when a report is made, or to answer a request from the
+                police or a court. After 7 days it is deleted automatically, normally within about a day
+                after.</li>
+            <li><strong>Reporting chat:</strong> a student can report a message from the teacher or the whole
+                chat, and a teacher can report a student's messages, from inside the class and, for up to
+                7 days, from the class in History ("Report a chat message"). The report then also keeps
+                the last messages of that private chat (up to 20, plus the reported one, including a
+                message the teacher deleted). Reports are kept for 90 days like other Live Class reports.
+                The teacher is not told which student reported. A student can also hide chat for a class on
+                his own phone.</li>
             <li>We do not use class data for advertising or profiling, we do not sell it, and we
                 show no ads anywhere in Live Class.</li>
         </ul>
@@ -605,6 +632,8 @@
                 email addresses or IP addresses.</li>
             <li><strong>Hosting:</strong> Firestore is hosted by Google Cloud Platform
                 in the asia-south1 (Mumbai) region.</li>
+            <li><strong>Live Class safety data:</strong> the 7-day safety copy of private chat messages and
+                Live Class reports are also kept in this Firestore database (Mumbai); see Section 2.4.</li>
         </ul>
         <p>
             Google Cloud Firestore is governed by:
@@ -619,6 +648,8 @@
             infrastructure is limited to the OCR processing, scan-limit tracking, purchase
             verification and Live Class described in this policy — there is no cloud sync of
             your drawings and no tracking beyond what is described here.
+            Chat messages are never used for advertising, analytics, profiling or to train or run any AI;
+            no ads are shown in Live Class or in chat.
         </p>
 
         <h3>4.11 Firebase Realtime Database and Cloud Storage (Live Class)</h3>
@@ -689,7 +720,8 @@
             White Board is <strong>not directed at children under the age of 13</strong>
             (or the equivalent minimum age in your jurisdiction). We do not knowingly
             collect personal information from children. Live Class students must also be 13 or
-            older; teachers decide who receives a class code. If you are a parent or guardian
+            older; teachers decide who receives a class code. The chat filter and the teacher's controls
+            make chat safer, but they do not make Live Class a service for children under 13. If you are a parent or guardian
             and believe that your child has provided information to us, please contact
             us at <a href="mailto:nonytoons2011@gmail.com">nonytoons2011@gmail.com</a>
             and we will take appropriate steps.
@@ -735,6 +767,10 @@
                 deleting and re-creating an account (fraud prevention). It holds no name or email.</li>
             <li>Live Class reports (Section 2.4) stay until their 90 days are over, so that we can
                 still act on them.</li>
+            <li>Chat safety copies are linked to the anonymous Live Class identifier, not to your Google
+                account; they are deleted automatically after 7 days (normally within about a day after).
+                To have them deleted earlier, email us the class code and the date of the class; we keep
+                them only if a report or a legal request about that class is open.</li>
             <li>Google Play keeps its own purchase records; the Remove Ads purchase comes back with
                 "Restore purchases". OCR Premium, Screen Recorder Pro and the Live Class subscription
                 cannot be moved to a new sign-in after the account is deleted.</li>
@@ -782,7 +818,7 @@
             User content is stored in the App's private storage area on your device,
             which is protected by Android's app-sandbox model. All network traffic —
             including OCR image uploads, scan-limit checks, AdMob requests, Google
-            Play services and Live Class — is encrypted in transit using HTTPS / TLS (Live Class
+            Play services and Live Class (including chat) — is encrypted in transit using HTTPS / TLS (Live Class
             voice and video: WebRTC encryption). Server-side data
             in Firestore is protected by Google Cloud Platform's security infrastructure
             including encryption at rest.
@@ -829,6 +865,25 @@
         </p>
     </div>
 
+    <h2 id="grievance">13. Grievance Officer (India)</h2>
+    <div class="card">
+        <p>
+            In line with the Information Technology (Intermediary Guidelines and Digital Media Ethics Code)
+            Rules, 2021, you can send complaints about content or users in White Board (including Live Class
+            chat), or about how we handle your data, to our Grievance Officer:
+        </p>
+        <ul>
+            <li><strong>Name:</strong> Rahul Kumar</li>
+            <li><strong>Email:</strong> <a href="mailto:nonytoons2011@gmail.com">nonytoons2011@gmail.com</a></li>
+            <li><strong>App:</strong> White Board (com.teachingboard.aitricker), developer AiTricker</li>
+        </ul>
+        <p>
+            Please write the class code, the date and time of the class and what happened. We acknowledge
+            every complaint within 24 hours and resolve it within 15 days. A complaint about content that
+            shows a person in a sexual or intimate way, or impersonates someone, is acted on within 24 hours.
+        </p>
+    </div>
+
     </div><!-- /privacy -->
 
     <!-- ════════════════════════════════════════════════════════════════
@@ -840,7 +895,7 @@
     <p class="meta">
         <strong>App:</strong> White Board &nbsp;|&nbsp;
         <strong>Effective date:</strong> 7 July 2026 &nbsp;|&nbsp;
-        <strong>Last updated:</strong> 27 October 2026
+        <strong>Last updated:</strong> 21 November 2026
     </p>
 
     <div class="card">
@@ -936,18 +991,34 @@
                 the class code only with their students and for what is shown in the class.
                 Everyone in a class must respect others: no harassment, hate, sexual or violent
                 content, and no recording or sharing of other people without their permission.</li>
+            <li><strong>Class chat:</strong> chat in a class is only for the class. Before the first message
+                everyone agrees to the chat rules shown in the App. Students: be kind; write only to your
+                teacher about the class; never send phone numbers, email addresses, links, social media names
+                or other personal details; no bullying, hate, sexual, violent or illegal content, and no spam
+                or advertising. Teachers: you are responsible for your messages; never send students your or
+                anyone's personal contact details or links in private messages; do not ask a student to move
+                to another app or to meet; use chat only for teaching. Our server refuses some content
+                (phone numbers, emails, links, bad words), but this filter cannot catch everything.</li>
+            <li><strong>Chat moderation:</strong> the teacher can turn chat on or off, set slow mode, delete
+                students' messages, mute one student or everyone, remove a student and end the class. A
+                student can hide chat. Anyone can report a message or a person from inside the App or by email.
+                We look at reports, may read the reported messages and the 7-day safety copy (Privacy Policy
+                section 2.4), and may delete content, stop a class, turn off chat, and block a teacher's
+                account or a phone from Live Class, with or without notice, when these Terms or the law are
+                broken. We may share reported content with the police or a court when the law requires it.</li>
             <li><strong>Class recordings:</strong> by creating a class, the teacher agrees that
                 students may record the class (the board, the teacher's face cam and voice) on their
                 own phone for their own study. A student may use such a recording only for their own
                 study and must never share, upload or sell it. The recording stays on the student's
                 phone; we never receive it.</li>
             <li><strong>Moderation and reporting:</strong> the teacher can remove a student, pause a
-                student's raised hand for a while, take back the board and end the class. Anyone can
+                student's raised hand for a while, mute or delete chat messages, take back the board and end the class. Anyone can
                 report a person or
                 content to us at
                 <a href="mailto:nonytoons2011@gmail.com">nonytoons2011@gmail.com</a>
                 (and, in the latest version, from inside the App). We may stop a class, refuse new
-                classes, or block an account that breaks these Terms.</li>
+                classes, or block an account that breaks these Terms. Complaints can also go to our
+                <a href="#grievance" onclick="switchTab('privacy'); document.getElementById('grievance').scrollIntoView(); return false;">Grievance Officer</a>.</li>
             <li><strong>Limits:</strong> up to 40 students and 3 running classes per teacher,
                 12 hours per class, and fair-use limits for audio and video; we may stop a class to
                 protect the service.</li>
@@ -990,6 +1061,10 @@
             <li>Use automated tools, bots, or scripts to access the OCR service.</li>
             <li>Use the App for any illegal or unauthorized purpose.</li>
             <li>Distribute modified versions of the App.</li>
+            <li>Use Live Class or its chat to harass, threaten, groom or exploit anyone, to collect other
+                users' personal details, or to send spam or advertising.</li>
+            <li>Try to get around the chat filter, slow mode, mutes, limits or a block (for example by
+                splitting a phone number into parts or by reinstalling the App).</li>
         </ul>
     </div>
 
